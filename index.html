@@ -7,17 +7,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --navy: #0a1628;
-    --navy2: #0f2040;
-    --blue: #1a4080;
-    --accent: #e8a020;
-    --accent2: #f5c040;
-    --light: #e8eef5;
-    --white: #ffffff;
-    --green: #2ecc71;
-    --red: #e74c3c;
-    --gray: #8899aa;
-    --border: rgba(255,255,255,0.1);
+    --navy: #f4f6fa;
+    --navy2: #e8edf5;
+    --blue: #3b6dbf;
+    --accent: #d4890a;
+    --accent2: #e8a020;
+    --light: #2c3e50;
+    --white: #1a2332;
+    --green: #27ae60;
+    --red: #c0392b;
+    --gray: #6b7c93;
+    --border: rgba(0,0,0,0.1);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -25,19 +25,19 @@
   body {
     font-family: 'Barlow', sans-serif;
     background: var(--navy);
-    color: var(--white);
+    color: #2c3e50;
     min-height: 100vh;
   }
 
   /* ===== HEADER ===== */
   header {
-    background: linear-gradient(135deg, var(--navy2) 0%, var(--blue) 100%);
+    background: linear-gradient(135deg, #2c4a8a 0%, #1e3a7a 100%);
     border-bottom: 3px solid var(--accent);
     padding: 0 2rem;
     position: sticky;
     top: 0;
     z-index: 100;
-    box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
   }
 
   .header-inner {
@@ -86,20 +86,21 @@
     padding: 0.5rem 1.2rem;
     border: none;
     background: transparent;
-    color: var(--light);
+    color: #ffffff;
     font-family: 'Barlow Condensed', sans-serif;
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 1px;
     cursor: pointer;
     border-radius: 6px;
     transition: all 0.2s;
     white-space: nowrap;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.25);
   }
 
   .nav-btn:hover, .nav-btn.active {
-    background: rgba(232,160,32,0.2);
-    color: var(--accent);
+    background: rgba(255,255,255,0.15);
+    color: #ffd166;
   }
 
   .dropdown-wrapper { position: relative; }
@@ -109,7 +110,7 @@
     position: absolute;
     top: calc(100% + 8px);
     left: 0;
-    background: var(--navy2);
+    background: #e8edf5;
     border: 1px solid var(--border);
     border-top: 3px solid var(--accent);
     border-radius: 0 0 8px 8px;
@@ -142,7 +143,7 @@
   .date-display {
     font-family: 'Barlow Condensed', sans-serif;
     font-size: 0.95rem;
-    color: var(--gray);
+    color: rgba(255,255,255,0.8);
     letter-spacing: 1px;
   }
 
@@ -367,25 +368,26 @@
     align-items: center;
     gap: 0.4rem;
     padding: 0.9rem 0.5rem;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.08);
+    background: #ffffff;
+    border: 1.5px solid #c8d4e8;
     border-radius: 10px;
     cursor: pointer;
     transition: all 0.25s;
     -webkit-tap-highlight-color: transparent;
-    color: var(--light);
+    color: #2c3e50;
     font-size: 0.72rem;
     letter-spacing: 0.5px;
     font-family: 'Barlow Condensed', sans-serif;
     font-weight: 700;
     text-transform: uppercase;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.07);
   }
   .hero-module-btn:hover {
-    background: rgba(232,160,32,0.07);
-    border-color: rgba(232,160,32,0.3);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-    color: var(--accent);
+    background: #fff8ee;
+    border-color: #d4890a;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(212,137,10,0.15);
+    color: #d4890a;
   }
   .hero-module-btn .hm-icon { font-size: 1.6rem; }
 
@@ -418,7 +420,7 @@
     justify-content: center;
   }
   .hero-card {
-    background: rgba(255,255,255,0.04);
+    background: #f8f9fc;
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 1.5rem 2rem;
@@ -428,7 +430,7 @@
     transition: all 0.3s;
   }
   .hero-card:hover {
-    background: rgba(232,160,32,0.08);
+    background: rgba(212,137,10,0.08);
     border-color: var(--accent);
     transform: translateY(-4px);
   }
@@ -450,7 +452,7 @@
     gap: 1rem;
     margin-bottom: 2rem;
     padding-bottom: 1rem;
-    border-bottom: 2px solid var(--border);
+    border-bottom: 2px solid #d0d8e8;
   }
 
   .section-header h2 {
@@ -458,11 +460,13 @@
     font-size: 2rem;
     font-weight: 700;
     letter-spacing: 2px;
+    color: #1a2c4a;
   }
 
   .section-header .badge {
-    background: var(--accent);
-    color: var(--navy);
+    background: rgba(212,137,10,0.12);
+    color: #b8760a;
+    border: 1px solid rgba(212,137,10,0.25);
     font-size: 0.75rem;
     font-weight: 700;
     padding: 0.3rem 0.8rem;
@@ -475,7 +479,7 @@
     display: flex;
     gap: 0.5rem;
     margin-bottom: 2rem;
-    background: rgba(255,255,255,0.03);
+    background: #fafbfd;
     padding: 0.4rem;
     border-radius: 10px;
     border: 1px solid var(--border);
@@ -503,7 +507,7 @@
 
   /* ===== CARD ===== */
   .card {
-    background: rgba(255,255,255,0.04);
+    background: #f8f9fc;
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 1.5rem;
@@ -556,7 +560,7 @@
     border-color: var(--accent);
   }
 
-  .form-group select option { background: var(--navy2); }
+  .form-group select option { background: #e8edf5; }
 
   .form-group input.auto-filled {
     background: rgba(46,204,113,0.08);
@@ -633,7 +637,7 @@
     color: var(--light);
   }
 
-  tr:hover td { background: rgba(255,255,255,0.03); }
+  tr:hover td { background: #fafbfd; }
 
   .badge-ok {
     background: rgba(46,204,113,0.15);
@@ -664,7 +668,7 @@
   }
 
   .temp-cell {
-    background: rgba(255,255,255,0.04);
+    background: #f8f9fc;
     border: 1px solid var(--border);
     border-radius: 10px;
     padding: 1rem;
@@ -767,7 +771,7 @@
 
   /* ===== INFO BOX ===== */
   .info-box {
-    background: rgba(232,160,32,0.08);
+    background: rgba(212,137,10,0.08);
     border: 1px solid rgba(232,160,32,0.2);
     border-left: 3px solid var(--accent);
     border-radius: 0 8px 8px 0;
@@ -803,7 +807,7 @@
   .modal-overlay.open { display: flex; }
 
   .modal {
-    background: var(--navy2);
+    background: #e8edf5;
     border: 1px solid var(--border);
     border-top: 3px solid var(--accent);
     border-radius: 12px;
@@ -851,7 +855,7 @@
     left: 0;
     right: 0;
     z-index: 200;
-    background: var(--navy2);
+    background: #e8edf5;
     border-top: 2px solid var(--accent);
     padding: 0.5rem 0 env(safe-area-inset-bottom, 0.5rem);
     box-shadow: 0 -4px 20px rgba(0,0,0,0.5);
@@ -892,7 +896,7 @@
     bottom: 70px;
     left: 1rem;
     right: 1rem;
-    background: var(--navy2);
+    background: #e8edf5;
     border: 1px solid var(--border);
     border-top: 3px solid var(--accent);
     border-radius: 12px;
@@ -1002,7 +1006,7 @@
     top: calc(100% + 12px);
     left: 50%;
     transform: translateX(-50%);
-    background: var(--navy2);
+    background: #e8edf5;
     border: 1px solid var(--border);
     border-top: 3px solid var(--accent);
     border-radius: 0 0 12px 12px;
@@ -1040,7 +1044,7 @@
   .registrazioni-list { display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 1.5rem; }
 
   .reg-item {
-    background: rgba(255,255,255,0.04);
+    background: #f8f9fc;
     border: 1px solid var(--border);
     border-radius: 10px;
     padding: 1rem 1.2rem;
@@ -1104,7 +1108,7 @@
 
   /* Form panel sliding */
   .reg-form-panel {
-    background: rgba(255,255,255,0.03);
+    background: #fafbfd;
     border: 1px solid var(--border);
     border-top: 3px solid var(--accent);
     border-radius: 12px;
@@ -1131,7 +1135,7 @@
   }
 
   .pulizie-hub-card {
-    background: rgba(255,255,255,0.04);
+    background: #f8f9fc;
     border: 1px solid var(--border);
     border-radius: 14px;
     padding: 1.8rem 1.5rem;
@@ -1187,7 +1191,7 @@
     padding: 0.9rem 1rem;
     border-radius: 9px;
     border: 1px solid var(--border);
-    background: rgba(255,255,255,0.03);
+    background: #fafbfd;
     margin-bottom: 0.5rem;
     cursor: pointer;
     transition: all 0.2s;
@@ -1234,7 +1238,7 @@
   }
 
   .pulizie-progress {
-    background: rgba(255,255,255,0.05);
+    background: #f5f7fb;
     border-radius: 100px;
     height: 6px;
     margin: 0.5rem 0 1.2rem;
@@ -1262,14 +1266,14 @@
   }
 
   .mese-card {
-    background: rgba(255,255,255,0.03);
+    background: #fafbfd;
     border: 1px solid var(--border);
     border-radius: 10px;
     overflow: hidden;
   }
 
   .mese-card-header {
-    background: rgba(232,160,32,0.08);
+    background: rgba(212,137,10,0.08);
     border-bottom: 1px solid var(--border);
     padding: 0.7rem 1rem;
     display: flex;
@@ -1308,7 +1312,7 @@
   }
 
   .add-attivita-form {
-    background: rgba(255,255,255,0.03);
+    background: #fafbfd;
     border: 1px dashed rgba(232,160,32,0.3);
     border-radius: 8px;
     padding: 0.8rem;
@@ -1376,7 +1380,7 @@
     transition: background 0.15s;
     min-height: 52px;
   }
-  .giorno-row:hover { background: rgba(255,255,255,0.03) !important; }
+  .giorno-row:hover { background: #fafbfd !important; }
 
   .giorno-row-left {
     display: flex;
@@ -1568,7 +1572,7 @@
     padding: 0.7rem 0.4rem;
     border-radius: 8px;
     border: 2px solid var(--border);
-    background: rgba(255,255,255,0.04);
+    background: #f8f9fc;
     color: var(--gray);
     font-family: 'Barlow Condensed', sans-serif;
     font-size: 0.85rem;
@@ -1598,7 +1602,7 @@
     padding: 0.55rem 0.8rem;
     border-radius: 7px;
     border: 1px solid var(--border);
-    background: rgba(255,255,255,0.03);
+    background: #fafbfd;
     margin-bottom: 0.4rem;
     font-size: 0.85rem;
     color: var(--light);
@@ -1629,7 +1633,7 @@
     padding: 0.8rem 1rem;
     border: 1px solid var(--border);
     border-radius: 9px;
-    background: rgba(255,255,255,0.03);
+    background: #fafbfd;
     margin-bottom: 0.5rem;
     transition: border-color 0.2s;
   }
@@ -1682,7 +1686,7 @@
     padding: 1rem 1rem 1rem 0.8rem;
     border: 1px solid var(--border);
     border-radius: 10px;
-    background: rgba(255,255,255,0.03);
+    background: #fafbfd;
     margin-bottom: 0.8rem;
     transition: border-color 0.2s;
   }
@@ -1763,8 +1767,7 @@
     grid-template-columns: repeat(4, 1fr);
   }
   .hero-modules-row2 {
-    grid-template-columns: repeat(2, 1fr);
-    max-width: calc(50% + 0.35rem);
+    grid-template-columns: repeat(4, 1fr);
   }
 
   /* ===== HERO COMPANY NAME ===== */
@@ -1832,7 +1835,7 @@
   #loginOverlay .login-box {
     width: 100%;
     max-width: 420px;
-    background: rgba(255,255,255,0.04);
+    background: #f8f9fc;
     border: 1px solid var(--border);
     border-radius: 16px;
     padding: 2.5rem 2rem;
@@ -1902,7 +1905,7 @@
 
   /* ===== BOLLA UPLOAD ===== */
   .bolla-upload-area {
-    background: rgba(255,255,255,0.03);
+    background: #fafbfd;
     border: 1px dashed rgba(255,255,255,0.15);
     border-radius: 10px;
     padding: 1rem;
@@ -1919,7 +1922,7 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.6rem 1.2rem;
-    background: rgba(255,255,255,0.05);
+    background: #f5f7fb;
     border: 1px solid var(--border);
     border-radius: 8px;
     color: var(--light);
@@ -1933,7 +1936,7 @@
     user-select: none;
   }
   .bolla-btn:hover {
-    background: rgba(232,160,32,0.08);
+    background: rgba(212,137,10,0.08);
     border-color: rgba(232,160,32,0.3);
     color: var(--accent);
   }
@@ -1953,16 +1956,16 @@
     padding: 0.2rem 0.6rem;
     transition: all 0.2s;
   }
-  .bolla-link:hover { background: rgba(232,160,32,0.08); }
+  .bolla-link:hover { background: rgba(212,137,10,0.08); }
 
   /* ═══════════════════════════════════════════
      SCANNER STRIP & MODAL
   ═══════════════════════════════════════════ */
   .scan-strip {
     margin: 1.5rem 0 0;
-    border: 1px solid rgba(255,255,255,0.08);
+    border: 1px solid #dde3ef;
     border-radius: 14px;
-    background: rgba(255,255,255,0.025);
+    background: #f8f9fc;
     display: flex; flex-wrap: wrap; align-items: center;
     transition: border-color 0.3s;
     overflow: hidden;
@@ -2001,19 +2004,19 @@
 
   /* Result / loading / error under the strip */
   .scan-result-card {
-    width: 100%; border-top: 1px solid rgba(255,255,255,0.07);
+    width: 100%; border-top: 1px solid #eef1f8;
     padding: 1.2rem 1.5rem; display: none;
   }
   .scan-result-card.visible { display: block; }
   .scan-result-inner { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1rem; }
   .scan-result-img {
     width: 64px; height: 64px; border-radius: 8px; object-fit: contain;
-    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
+    background: #f5f7fb; border: 1px solid #dde3ef;
     flex-shrink: 0; padding: 4px;
   }
   .scan-result-placeholder {
     width: 64px; height: 64px; border-radius: 8px;
-    background: rgba(255,255,255,0.04); border: 1px dashed rgba(255,255,255,0.1);
+    background: #f8f9fc; border: 1px dashed rgba(255,255,255,0.1);
     display: flex; align-items: center; justify-content: center;
     font-size: 1.6rem; flex-shrink: 0;
   }
@@ -2064,7 +2067,7 @@
     color: #fff; text-transform: uppercase;
   }
   #scanModal .sm-close {
-    background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2);
+    background: rgba(255,255,255,.12); border: 1px solid #bcc8dc;
     color: #fff; border-radius: 8px; padding: .4rem 1rem;
     font-family: 'Barlow Condensed', sans-serif; letter-spacing: 1px;
     font-size: .85rem; cursor: pointer;
@@ -2157,6 +2160,201 @@
     .scan-result-grid { grid-template-columns:1fr 1fr; }
   }
 
+  /* ═══════════════════════════════════════
+     ABBATTIMENTO & LAVORAZIONE
+  ═══════════════════════════════════════ */
+  .abl-form-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;
+  }
+  .abl-form-grid.cols3 { grid-template-columns: 1fr 1fr 1fr; }
+  .abl-form-grid.cols1 { grid-template-columns: 1fr; }
+  @media(max-width:768px){ .abl-form-grid, .abl-form-grid.cols3 { grid-template-columns:1fr; } }
+
+  .abl-field label {
+    display: block; font-size: .7rem; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--gray); margin-bottom: .35rem; font-weight: 600;
+  }
+  .abl-field input, .abl-field select, .abl-field textarea {
+    width: 100%; background: #f5f7fb;
+    border: 1px solid #d0d8e8; border-radius: 8px;
+    padding: .6rem .85rem; color: #1a2c4a; font-family: 'Barlow',sans-serif;
+    font-size: .9rem; outline: none; transition: border-color .2s;
+  }
+  .abl-field input:focus, .abl-field select:focus, .abl-field textarea:focus {
+    border-color: var(--accent);
+  }
+  .abl-field textarea { resize: vertical; min-height: 70px; }
+  .abl-field select option { background: #e8edf5; }
+  .abl-field .unit {
+    position: relative;
+  }
+  .abl-field .unit input { padding-right: 3rem; }
+  .abl-field .unit span {
+    position: absolute; right: .85rem; top: 50%; transform: translateY(-50%);
+    color: var(--gray); font-size: .8rem; pointer-events: none;
+  }
+
+  /* Ingredienti row */
+  .ing-row {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr auto;
+    gap: .5rem; align-items: center; margin-bottom: .5rem;
+  }
+  @media(max-width:768px){
+    .ing-row { grid-template-columns: 1fr 1fr; }
+    .ing-row .ing-del { grid-column: 1/-1; justify-self: end; }
+  }
+  .ing-row input, .ing-row select {
+    background: #f5f7fb; border: 1px solid #dde3ef;
+    border-radius: 6px; padding: .5rem .7rem; color: #1a2c4a;
+    font-family: 'Barlow',sans-serif; font-size: .85rem; width: 100%; outline: none;
+  }
+  .ing-row input:focus, .ing-row select:focus { border-color: var(--accent); }
+  .ing-del {
+    background: rgba(231,76,60,.15); border: 1px solid rgba(231,76,60,.3);
+    color: #e74c3c; border-radius: 6px; padding: .4rem .7rem; cursor: pointer;
+    font-size: .85rem; transition: all .2s; white-space: nowrap;
+  }
+  .ing-del:hover { background: rgba(231,76,60,.3); }
+  .ing-header {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr auto;
+    gap: .5rem; margin-bottom: .4rem; padding-bottom: .4rem;
+    border-bottom: 1px solid #eef1f8;
+  }
+  .ing-header span {
+    font-size: .65rem; letter-spacing: 1px; text-transform: uppercase; color: var(--gray);
+  }
+  @media(max-width:768px){ .ing-header { display:none; } }
+
+  /* Template selector */
+  .tmpl-bar {
+    display: flex; align-items: center; gap: .75rem; flex-wrap: wrap;
+    background: rgba(232,160,32,.05); border: 1px solid rgba(232,160,32,.15);
+    border-radius: 10px; padding: .8rem 1rem; margin-bottom: 1rem;
+  }
+  .tmpl-bar label {
+    font-size: .7rem; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--accent); font-weight: 700; white-space: nowrap;
+  }
+  .tmpl-bar select {
+    flex: 1; min-width: 160px; background: #f5f7fb;
+    border: 1px solid #d0d8e8; border-radius: 6px;
+    padding: .45rem .7rem; color: var(--white); font-family: 'Barlow',sans-serif;
+    font-size: .88rem; outline: none;
+  }
+  .tmpl-bar select option { background: #e8edf5; }
+
+  /* Storico records */
+  .abl-record {
+    background: #fafbfd; border: 1px solid rgba(255,255,255,.07);
+    border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: .75rem;
+    transition: border-color .2s;
+  }
+  .abl-record:hover { border-color: rgba(232,160,32,.2); }
+  .abl-record-head {
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: .5rem; margin-bottom: .6rem;
+  }
+  .abl-record-title {
+    font-family: 'Barlow Condensed',sans-serif; font-size: 1.05rem;
+    font-weight: 700; color: var(--white);
+  }
+  .abl-record-meta {
+    display: flex; gap: .5rem; flex-wrap: wrap; align-items: center;
+  }
+  .abl-record-meta .badge { font-size: .7rem; }
+  .abl-record-fields {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(140px,1fr));
+    gap: .4rem;
+  }
+  .abl-kv {
+    background: #fafbfd; border-radius: 6px;
+    padding: .35rem .6rem;
+  }
+  .abl-kv strong { display:block; font-size:.6rem; letter-spacing:1px; text-transform:uppercase; color:var(--gray); }
+  .abl-kv span { font-size:.82rem; color:var(--light); }
+
+  /* Temp badge colori */
+  .temp-ok  { background: rgba(46,204,113,.15); color:#2ecc71; border:1px solid rgba(46,204,113,.3); }
+  .temp-warn{ background: rgba(241,196,15,.15);  color:#f1c40f; border:1px solid rgba(241,196,15,.3); }
+  .temp-bad { background: rgba(231,76,60,.15);   color:#e74c3c; border:1px solid rgba(231,76,60,.3); }
+
+  /* Scheda lavorazione ingredienti nel record */
+  .lav-ing-list { margin-top: .5rem; }
+  .lav-ing-list .ing-chip {
+    display: inline-flex; gap: .3rem; align-items: center;
+    background: #f5f7fb; border-radius: 20px;
+    padding: .25rem .7rem; font-size: .78rem; margin: .2rem .2rem 0 0;
+    border: 1px solid #dde3ef;
+  }
+  .lav-ing-list .ing-chip strong { color: var(--accent); }
+
+  /* Print button in section header */
+  .btn-print {
+    display: inline-flex; align-items: center; gap: .4rem;
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12);
+    color: var(--light); border-radius: 8px; padding: .45rem 1rem;
+    font-family: 'Barlow Condensed',sans-serif; font-size: .82rem;
+    letter-spacing: 1.5px; cursor: pointer; transition: all .2s;
+    text-transform: uppercase;
+  }
+  .btn-print:hover { background: rgba(255,255,255,.1); border-color: var(--accent); color: var(--accent); }
+
+  /* ── PRINT STYLES ── */
+  @media print {
+    /* Nascondi tutto il chrome dell'app */
+    header, nav, .back-btn, .btn-print, .tabs, .tab-btn,
+    #page-home, #scanModal, .bottom-nav, .scan-strip,
+    .abl-form-wrap, .tmpl-bar, .reg-form-panel, #regFormPanel,
+    .pulizie-hub, .info-box, .print-header-auto + * > .btn-outline,
+    button:not(.record-action) { display: none !important; }
+
+    /* Layout pulito */
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    body { background: #fff !important; color: #000 !important; font-size: 11pt !important; }
+    .page { display: block !important; padding: 0 !important; }
+    .page:not(.active) { display: none !important; }
+    .content-wrap, .main-content { max-width: 100% !important; padding: 0 !important; }
+    .section-header { border: none !important; background: none !important; padding: 0 0 8px 0 !important; margin-bottom: 12px !important; }
+    .section-header h2 { color: #000 !important; font-size: 14pt !important; }
+    .section-header .badge, .section-header div { display: none !important; }
+
+    /* Cards */
+    .card { border: 1px solid #ccc !important; background: #fff !important;
+            box-shadow: none !important; page-break-inside: avoid; margin-bottom: 8px !important; padding: 10px !important; }
+
+    /* Record abbattimento/lavorazione */
+    .abl-record { border: 1px solid #ccc !important; background: #fff !important;
+                  page-break-inside: avoid; margin-bottom: 6px !important; }
+    .abl-record-title { color: #000 !important; font-size: 11pt !important; }
+    .abl-kv { background: #f5f5f5 !important; border: 1px solid #ddd !important; }
+    .abl-kv strong { color: #555 !important; }
+    .abl-kv span { color: #000 !important; }
+
+    /* Badge, chips */
+    .badge { border: 1px solid #999 !important; color: #333 !important; background: #eee !important; }
+    .ing-chip { background: #f0f0f0 !important; border: 1px solid #ccc !important; color: #000 !important; }
+    .ing-chip strong { color: #333 !important; }
+
+    /* Tabelle temperature/rintracciabilità */
+    table { border-collapse: collapse !important; width: 100% !important; }
+    th { background: #eee !important; color: #000 !important; border: 1px solid #ccc !important; }
+    td { border: 1px solid #ddd !important; color: #000 !important; background: #fff !important; }
+    tr:nth-child(even) td { background: #f8f8f8 !important; }
+
+    /* Checklist pulizie */
+    .check-item, .clean-item { border: 1px solid #ddd !important; background: #fff !important; page-break-inside: avoid; }
+    .check-item.done, .clean-item.done { background: #f0fff4 !important; }
+
+    /* Header automatico stampaPagina() */
+    .print-header-auto { display: block !important; font-family: sans-serif; }
+
+    /* Derattizzazione */
+    .derat-record { page-break-inside: avoid; }
+
+    @page { margin: 1.5cm; size: A4; }
+  }
+  .print-header { display: none; }
+
 </style>
 </head>
 <body>
@@ -2211,12 +2409,14 @@
           <button class="dropdown-item" onclick="showPage('rintracciabilita'); toggleMenu()">📦 Rintracciabilità Merci in Arrivo</button>
           <button class="dropdown-item" onclick="showPage('pulizie'); toggleMenu()">🧹 Pulizie</button>
           <button class="dropdown-item" onclick="showPage('derattizzazione'); toggleMenu()">🐀 Piano di Derattizzazione</button>
+          <button class="dropdown-item" onclick="showPage('abbattimento'); toggleMenu()">❄️ Scheda Abbattimento</button>
+          <button class="dropdown-item" onclick="showPage('lavorazione'); toggleMenu()">👨‍🍳 Scheda Lavorazione</button>
         </div>
       </div>
 
       <button class="nav-btn" onclick="showPage('admin')">⚙️ ADMIN</button>
       <div class="date-display" id="dateDisplay"></div>
-      <button class="nav-btn" id="btnLoginNav" onclick="doLogout()" style="color:var(--gray);font-size:0.8rem;">🔒 ESCI</button>
+      <button class="nav-btn" id="btnLoginNav" onclick="doLogout()" style="color:rgba(255,255,255,0.7);font-size:0.8rem;">🔒 ESCI</button>
     </nav>
   </div>
 </header>
@@ -2278,10 +2478,16 @@
           </div>
         </div>
         <div class="hero-modules hero-modules-row2">
+          <div class="hero-module-btn" onclick="showPage('abbattimento')">
+            <span class="hm-icon">❄️</span>Abbattimento
+          </div>
+          <div class="hero-module-btn" onclick="showPage('lavorazione')">
+            <span class="hm-icon">👨‍🍳</span>Lavorazione
+          </div>
           <div class="hero-module-btn" onclick="showPage('documenti')">
             <span class="hm-icon">📁</span>Documenti
           </div>
-          <div class="hero-module-btn" onclick="showPage('admin')" style="border-style:dashed;opacity:0.6;">
+          <div class="hero-module-btn" onclick="showPage('admin')" style="opacity:0.75;">
             <span class="hm-icon">⚙️</span>Admin
           </div>
         </div>
@@ -2352,7 +2558,10 @@
 <div id="page-temperature" class="page">
   <div class="section-header">
     <h2>🌡️ SCHEDA CONTROLLO TEMPERATURE</h2>
-    <span class="badge" id="tempDateBadge"></span>
+    <div style="display:flex;gap:.5rem;align-items:center;">
+      <span class="badge" id="tempDateBadge"></span>
+      <button class="btn-print" onclick="stampaPagina('temperature')">🖨️ STAMPA PDF</button>
+    </div>
   </div>
 
   <div class="info-box">
@@ -2433,7 +2642,10 @@
 <div id="page-rintracciabilita" class="page">
   <div class="section-header">
     <h2>📦 RINTRACCIABILITÀ MERCI IN ARRIVO</h2>
-    <span class="badge" id="rDateBadge"></span>
+    <div style="display:flex;gap:.5rem;align-items:center;">
+      <span class="badge" id="rDateBadge"></span>
+      <button class="btn-print" onclick="stampaPagina('rintracciabilita')">🖨️ STAMPA PDF</button>
+    </div>
   </div>
 
   <!-- Lista articoli già registrati oggi -->
@@ -2618,7 +2830,10 @@
   <button class="back-btn" onclick="showPage('pulizie')">← PULIZIE</button>
   <div class="section-header">
     <h2>✅ SCHEDA CONTROLLO PULIZIE</h2>
-    <span class="badge" id="pGiornDateBadge"></span>
+    <div style="display:flex;gap:.5rem;align-items:center;">
+      <span class="badge" id="pGiornDateBadge"></span>
+      <button class="btn-print" onclick="stampaPagina('pulizie-giornaliera')">🖨️ STAMPA PDF</button>
+    </div>
   </div>
 
   <div class="tabs">
@@ -2696,7 +2911,10 @@
   <button class="back-btn" onclick="showPage('pulizie')">← PULIZIE</button>
   <div class="section-header">
     <h2>📅 PULIZIE CON ORARIO — MENSILE</h2>
-    <span class="badge">ANNUALE</span>
+    <div style="display:flex;gap:.5rem;align-items:center;">
+      <span class="badge">ANNUALE</span>
+      <button class="btn-print" onclick="stampaPagina('pulizie-mensile')">🖨️ STAMPA PDF</button>
+    </div>
   </div>
   <p style="color:var(--gray); font-size:0.88rem; margin-bottom:1.5rem;">
     Pianificazione annuale. Le attività qui aggiunte si auto-compilano nella <strong style="color:var(--accent)">scheda giornaliera</strong> ogni volta che il mese corrisponde.
@@ -2862,7 +3080,10 @@
 <div id="page-derattizzazione" class="page">
   <div class="section-header">
     <h2>🐀 PIANO DI DERATTIZZAZIONE</h2>
-    <span class="badge">MODULO</span>
+    <div style="display:flex;gap:.5rem;align-items:center;">
+      <span class="badge">MODULO</span>
+      <button class="btn-print" onclick="stampaPagina('derattizzazione')">🖨️ STAMPA PDF</button>
+    </div>
   </div>
 
   <div class="tabs">
@@ -3146,6 +3367,8 @@
   <button class="dropdown-item" onclick="showPage('pulizie'); closeMobileMenu()">🧹 Pulizie</button>
   <button class="dropdown-item" onclick="showPage('documenti'); closeMobileMenu()">📁 Documenti</button>
   <button class="dropdown-item" onclick="showPage('derattizzazione'); closeMobileMenu()">🐀 Piano di Derattizzazione</button>
+      <button class="dropdown-item" onclick="showPage('abbattimento'); closeMobileMenu()">❄️ Scheda Abbattimento</button>
+      <button class="dropdown-item" onclick="showPage('lavorazione'); closeMobileMenu()">👨‍🍳 Scheda Lavorazione</button>
 </div>
 
 <!-- BOTTOM NAV -->
@@ -3540,6 +3763,8 @@ function _showPageBase(id) {
   if(id === 'pulizie-chiusura') initChiusura();
   if(id === 'documenti') initDocumenti();
   if(id === 'derattizzazione') initDerattizzazione();
+  if(id === 'abbattimento') initAbbattimento();
+  if(id === 'lavorazione') initLavorazione();
   updateDateDisplay();
 }
 
@@ -4570,7 +4795,7 @@ function buildMeseDetailHTML(anno, mi, attivita, giorniMese, oggi) {
     if(isChiuso) {
       html += `<span style="color:var(--gray);font-size:0.8rem;font-style:italic;">Locale chiuso — nessuna pulizia prevista</span>`;
     } else if(isFuture) {
-      html += `<span style="color:var(--gray);font-size:0.8rem;">
+      html += `<span style="color:rgba(255,255,255,0.7);font-size:0.8rem;">
         ${attivita.map(({a}) => `<span style="margin-right:0.5rem;">• ${a.orario||''} ${a.nome}</span>`).join('')}
       </span>`;
     } else {
@@ -5657,6 +5882,391 @@ function renderChiusuraMeseRiepilogo() {
 // ===== INIT =====
 updateDate_noop = null;
 updateDateDisplay();
+// ═══════════════════════════════════════════════════════════════
+//  ABBATTIMENTO
+// ═══════════════════════════════════════════════════════════════
+function initAbbattimento() {
+  var today = new Date().toISOString().split('T')[0];
+  var now   = new Date().toTimeString().slice(0,5);
+  document.getElementById('ablData').value       = today;
+  document.getElementById('ablOraInizio').value  = now;
+  document.getElementById('ablDateBadge').textContent = formatDateIT(today);
+  document.getElementById('ablPrintDate').textContent = 'Stampato il ' + new Date().toLocaleString('it-IT');
+  ablRenderStorico();
+}
+
+function ablSalva() {
+  var prodotto  = document.getElementById('ablProdotto').value.trim();
+  var quantita  = document.getElementById('ablQuantita').value.trim();
+  var operatore = document.getElementById('ablOperatore').value.trim();
+  var data      = document.getElementById('ablData').value;
+  var oraInizio = document.getElementById('ablOraInizio').value;
+  var oraFine   = document.getElementById('ablOraFine').value;
+  var tInizio   = document.getElementById('ablTempInizio').value;
+  var tFine     = document.getElementById('ablTempFine').value;
+  var note      = document.getElementById('ablNote').value.trim();
+
+  if (!prodotto) { showToast('⚠️ Inserisci il nome del prodotto.'); return; }
+  if (!data)     { showToast('⚠️ Inserisci la data.'); return; }
+
+  var records = JSON.parse(localStorage.getItem('abl_records') || '[]');
+  records.unshift({
+    id: Date.now(), data, oraInizio, oraFine,
+    prodotto, quantita, operatore,
+    tInizio, tFine, note
+  });
+  localStorage.setItem('abl_records', JSON.stringify(records));
+
+  // Reset form
+  document.getElementById('ablProdotto').value  = '';
+  document.getElementById('ablQuantita').value  = '';
+  document.getElementById('ablOraFine').value   = '';
+  document.getElementById('ablTempInizio').value = '';
+  document.getElementById('ablTempFine').value  = '';
+  document.getElementById('ablNote').value      = '';
+
+  ablRenderStorico();
+  showToast('✅ Abbattimento registrato!');
+}
+
+function ablRenderStorico() {
+  var records = JSON.parse(localStorage.getItem('abl_records') || '[]');
+  var mese = document.getElementById('ablFiltroMese').value;
+  if (mese) records = records.filter(r => r.data && r.data.startsWith(mese));
+
+  document.getElementById('ablCount').textContent = records.length + ' record';
+  var el = document.getElementById('ablStorico');
+  if (!records.length) {
+    el.innerHTML = '<p style="color:var(--gray);font-size:.9rem;">Nessuna registrazione' + (mese ? ' per questo mese' : '') + '.</p>';
+    return;
+  }
+
+  el.innerHTML = records.map(function(r) {
+    var tFineNum = parseFloat(r.tFine);
+    var tempClass = isNaN(tFineNum) ? '' : tFineNum <= -18 ? 'temp-ok' : tFineNum <= -10 ? 'temp-warn' : 'temp-bad';
+    var tempLabel = isNaN(tFineNum) ? '' : tFineNum <= -18 ? '✓ OK' : tFineNum <= -10 ? '⚠ ATTENZIONE' : '✗ FUORI RANGE';
+
+    return '<div class="abl-record">' +
+      '<div class="abl-record-head">' +
+        '<div class="abl-record-title">❄️ ' + escHtml(r.prodotto) + (r.quantita ? ' · ' + escHtml(r.quantita) : '') + '</div>' +
+        '<div class="abl-record-meta">' +
+          (tempClass ? '<span class="badge ' + tempClass + '">' + tempLabel + '</span>' : '') +
+          '<span class="badge">' + formatDateIT(r.data) + '</span>' +
+          '<button onclick="ablElimina(' + r.id + ')" style="background:rgba(231,76,60,.15);border:1px solid rgba(231,76,60,.3);color:#e74c3c;border-radius:6px;padding:.2rem .6rem;cursor:pointer;font-size:.75rem;">🗑️</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="abl-record-fields">' +
+        (r.oraInizio ? '<div class="abl-kv"><strong>Inizio</strong><span>' + r.oraInizio + '</span></div>' : '') +
+        (r.oraFine   ? '<div class="abl-kv"><strong>Fine</strong><span>' + r.oraFine + '</span></div>' : '') +
+        (r.tInizio   ? '<div class="abl-kv"><strong>Temp. Inizio</strong><span>' + r.tInizio + ' °C</span></div>' : '') +
+        (r.tFine     ? '<div class="abl-kv"><strong>Temp. Fine</strong><span>' + r.tFine + ' °C</span></div>' : '') +
+        (r.operatore ? '<div class="abl-kv"><strong>Operatore</strong><span>' + escHtml(r.operatore) + '</span></div>' : '') +
+        (r.note      ? '<div class="abl-kv" style="grid-column:1/-1"><strong>Note</strong><span>' + escHtml(r.note) + '</span></div>' : '') +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function ablElimina(id) {
+  if (!confirm('Eliminare questo record?')) return;
+  var records = JSON.parse(localStorage.getItem('abl_records') || '[]');
+  localStorage.setItem('abl_records', JSON.stringify(records.filter(r => r.id !== id)));
+  ablRenderStorico();
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  LAVORAZIONE PRODOTTO
+// ═══════════════════════════════════════════════════════════════
+function initLavorazione() {
+  var today = new Date().toISOString().split('T')[0];
+  document.getElementById('lavData').value = today;
+  document.getElementById('lavDateBadge').textContent = formatDateIT(today);
+  document.getElementById('lavPrintDate').textContent = 'Stampato il ' + new Date().toLocaleString('it-IT');
+  lavRenderIngList([]);
+  lavRenderTemplates();
+  lavRenderStorico();
+}
+
+// ── Ingredienti ─────────────────────────────────────────────────
+var _lavIngredients = [];
+
+function lavRenderIngList(ings) {
+  _lavIngredients = ings || [];
+  var el = document.getElementById('lavIngList');
+  if (!_lavIngredients.length) {
+    el.innerHTML = '<p style="color:var(--gray);font-size:.85rem;padding:.5rem 0;">Nessun ingrediente aggiunto. Premi + AGGIUNGI.</p>';
+    return;
+  }
+  el.innerHTML = _lavIngredients.map(function(ing, i) {
+    return '<div class="ing-row" data-idx="' + i + '">' +
+      '<input type="text" placeholder="Ingrediente*" value="' + escHtml(ing.nome||'') + '" oninput="lavIngUpdate(' + i + ',\"nome\",this.value)">' +
+      '<input type="text" placeholder="Quantità" value="' + escHtml(ing.qty||'') + '" oninput="lavIngUpdate(' + i + ',\"qty\",this.value)">' +
+      '<input type="text" placeholder="Lotto/Fornitore" value="' + escHtml(ing.lotto||'') + '" oninput="lavIngUpdate(' + i + ',\"lotto\",this.value)">' +
+      '<input type="date" value="' + (ing.scad||'') + '" oninput="lavIngUpdate(' + i + ',\"scad\",this.value)">' +
+      '<button class="ing-del" onclick="lavRimuoviIng(' + i + ')">✕</button>' +
+    '</div>';
+  }).join('');
+}
+
+function lavAggiungiIng() {
+  _lavIngredients.push({ nome:'', qty:'', lotto:'', scad:'' });
+  lavRenderIngList(_lavIngredients);
+  // Focus sul primo input del nuovo elemento
+  var rows = document.querySelectorAll('#lavIngList .ing-row');
+  if (rows.length) rows[rows.length-1].querySelector('input').focus();
+}
+
+function lavIngUpdate(i, field, val) {
+  if (_lavIngredients[i]) _lavIngredients[i][field] = val;
+}
+
+function lavRimuoviIng(i) {
+  _lavIngredients.splice(i, 1);
+  lavRenderIngList(_lavIngredients);
+}
+
+// ── Templates ────────────────────────────────────────────────────
+function lavRenderTemplates() {
+  var tmpls = JSON.parse(localStorage.getItem('lav_templates') || '[]');
+  var sel = document.getElementById('lavTemplateSel');
+  var cur = sel.value;
+  sel.innerHTML = '<option value="">— nuova scheda vuota —</option>' +
+    tmpls.map(function(t) {
+      return '<option value="' + t.id + '">' + escHtml(t.nome) + '</option>';
+    }).join('');
+  if (cur) sel.value = cur;
+}
+
+function lavCaricaTemplate() {
+  var id = parseInt(document.getElementById('lavTemplateSel').value);
+  if (!id) { lavNuova(); return; }
+  var tmpls = JSON.parse(localStorage.getItem('lav_templates') || '[]');
+  var t = tmpls.find(function(x){ return x.id === id; });
+  if (!t) return;
+  document.getElementById('lavProdotto').value    = t.prodotto || '';
+  document.getElementById('lavTempCottura').value = t.tempCottura || '';
+  document.getElementById('lavNote').value        = t.note || '';
+  lavRenderIngList(JSON.parse(JSON.stringify(t.ingredienti || [])));
+  showToast('📋 Ricetta "' + t.nome + '" caricata!');
+}
+
+function lavSalvaTemplate() {
+  var prodotto = document.getElementById('lavProdotto').value.trim();
+  if (!prodotto) { showToast('⚠️ Inserisci il nome del prodotto prima di salvare la ricetta.'); return; }
+  var nome = prompt('Nome ricetta da salvare:', prodotto);
+  if (!nome) return;
+  var tmpls = JSON.parse(localStorage.getItem('lav_templates') || '[]');
+  var existing = tmpls.findIndex(function(t){ return t.nome === nome; });
+  var tmpl = {
+    id: existing >= 0 ? tmpls[existing].id : Date.now(),
+    nome, prodotto,
+    tempCottura: document.getElementById('lavTempCottura').value,
+    note: document.getElementById('lavNote').value,
+    ingredienti: JSON.parse(JSON.stringify(_lavIngredients))
+  };
+  if (existing >= 0) tmpls[existing] = tmpl;
+  else tmpls.push(tmpl);
+  localStorage.setItem('lav_templates', JSON.stringify(tmpls));
+  lavRenderTemplates();
+  document.getElementById('lavTemplateSel').value = tmpl.id;
+  showToast('✅ Ricetta "' + nome + '" salvata!');
+}
+
+function lavEliminaTemplate() {
+  var id = parseInt(document.getElementById('lavTemplateSel').value);
+  if (!id) { showToast('Seleziona prima una ricetta da eliminare.'); return; }
+  if (!confirm('Eliminare questa ricetta salvata?')) return;
+  var tmpls = JSON.parse(localStorage.getItem('lav_templates') || '[]');
+  localStorage.setItem('lav_templates', JSON.stringify(tmpls.filter(function(t){ return t.id !== id; })));
+  lavRenderTemplates();
+  lavNuova();
+  showToast('🗑️ Ricetta eliminata.');
+}
+
+// ── Salva scheda ─────────────────────────────────────────────────
+function lavSalva() {
+  var prodotto  = document.getElementById('lavProdotto').value.trim();
+  var data      = document.getElementById('lavData').value;
+  if (!prodotto) { showToast('⚠️ Inserisci il nome del prodotto finito.'); return; }
+  if (!data)     { showToast('⚠️ Inserisci la data.'); return; }
+
+  // Raccoglie ingredienti dai campi correnti
+  document.querySelectorAll('#lavIngList .ing-row').forEach(function(row, i) {
+    var inputs = row.querySelectorAll('input');
+    if (_lavIngredients[i]) {
+      _lavIngredients[i].nome  = inputs[0].value;
+      _lavIngredients[i].qty   = inputs[1].value;
+      _lavIngredients[i].lotto = inputs[2].value;
+      _lavIngredients[i].scad  = inputs[3].value;
+    }
+  });
+
+  var records = JSON.parse(localStorage.getItem('lav_records') || '[]');
+  records.unshift({
+    id: Date.now(), data,
+    prodotto,
+    quantita:    document.getElementById('lavQuantita').value.trim(),
+    operatore:   document.getElementById('lavOperatore').value.trim(),
+    tempCottura: document.getElementById('lavTempCottura').value,
+    note:        document.getElementById('lavNote').value.trim(),
+    ingredienti: JSON.parse(JSON.stringify(_lavIngredients.filter(function(i){ return i.nome; })))
+  });
+  localStorage.setItem('lav_records', JSON.stringify(records));
+  lavNuova();
+  lavRenderStorico();
+  showToast('✅ Scheda lavorazione salvata!');
+}
+
+function lavNuova() {
+  document.getElementById('lavProdotto').value    = '';
+  document.getElementById('lavQuantita').value    = '';
+  document.getElementById('lavOperatore').value   = '';
+  document.getElementById('lavTempCottura').value = '';
+  document.getElementById('lavNote').value        = '';
+  document.getElementById('lavTemplateSel').value = '';
+  lavRenderIngList([]);
+}
+
+function lavRenderStorico() {
+  var records = JSON.parse(localStorage.getItem('lav_records') || '[]');
+  var mese = document.getElementById('lavFiltroMese').value;
+  if (mese) records = records.filter(function(r){ return r.data && r.data.startsWith(mese); });
+
+  document.getElementById('lavCount').textContent = records.length + ' schede';
+  var el = document.getElementById('lavStorico');
+  if (!records.length) {
+    el.innerHTML = '<p style="color:var(--gray);font-size:.9rem;">Nessuna scheda salvata' + (mese ? ' per questo mese' : '') + '.</p>';
+    return;
+  }
+
+  el.innerHTML = records.map(function(r) {
+    var ings = (r.ingredienti || []).filter(function(i){ return i.nome; });
+    return '<div class="abl-record">' +
+      '<div class="abl-record-head">' +
+        '<div class="abl-record-title">👨‍🍳 ' + escHtml(r.prodotto) + (r.quantita ? ' · ' + escHtml(r.quantita) : '') + '</div>' +
+        '<div class="abl-record-meta">' +
+          '<span class="badge">' + formatDateIT(r.data) + '</span>' +
+          (r.operatore ? '<span class="badge">' + escHtml(r.operatore) + '</span>' : '') +
+          '<button onclick="lavElimina(' + r.id + ')" style="background:rgba(231,76,60,.15);border:1px solid rgba(231,76,60,.3);color:#e74c3c;border-radius:6px;padding:.2rem .6rem;cursor:pointer;font-size:.75rem;">🗑️</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="abl-record-fields">' +
+        (r.tempCottura ? '<div class="abl-kv"><strong>Temp. Cottura</strong><span>' + r.tempCottura + ' °C</span></div>' : '') +
+        (r.note ? '<div class="abl-kv" style="grid-column:1/-1"><strong>Note</strong><span>' + escHtml(r.note) + '</span></div>' : '') +
+      '</div>' +
+      (ings.length ? '<div class="lav-ing-list">' + ings.map(function(ing) {
+        return '<span class="ing-chip"><strong>' + escHtml(ing.nome) + '</strong>' +
+          (ing.qty   ? ' ' + escHtml(ing.qty) : '') +
+          (ing.lotto ? ' · ' + escHtml(ing.lotto) : '') +
+          (ing.scad  ? ' · scad. ' + formatDateIT(ing.scad) : '') +
+        '</span>';
+      }).join('') + '</div>' : '') +
+    '</div>';
+  }).join('');
+}
+
+function lavElimina(id) {
+  if (!confirm('Eliminare questa scheda?')) return;
+  var records = JSON.parse(localStorage.getItem('lav_records') || '[]');
+  localStorage.setItem('lav_records', JSON.stringify(records.filter(function(r){ return r.id !== id; })));
+  lavRenderStorico();
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  STAMPA PDF universale — funziona su tutti i moduli
+// ═══════════════════════════════════════════════════════════════
+function stampaPagina(sezione) {
+  var now = new Date().toLocaleString('it-IT');
+
+  // Aggiorna date stampa dove presenti
+  var dateMap = {
+    'abbattimento': 'ablPrintDate',
+    'lavorazione':  'lavPrintDate'
+  };
+  if (dateMap[sezione]) {
+    var el = document.getElementById(dateMap[sezione]);
+    if (el) el.textContent = 'Stampato il ' + now;
+  }
+
+  // Elementi da nascondere durante la stampa (form, pulsanti, input)
+  var toHide = [];
+  var hideSelectors = [
+    '.abl-form-wrap', '.reg-form-panel', '#regFormPanel',
+    '.pulizie-hub', '.scan-strip',
+    '[id$="FormWrap"]', '.info-box'
+  ];
+  // Nascondi solo quelli nella pagina corrente
+  var pageEl = document.getElementById('page-' + sezione);
+  if (pageEl) {
+    hideSelectors.forEach(function(sel) {
+      pageEl.querySelectorAll(sel).forEach(function(el) {
+        if (el.style.display !== 'none') {
+          toHide.push(el);
+          el.style.setProperty('display', 'none', 'important');
+        }
+      });
+    });
+  }
+
+  // Aggiungi header stampa con nome azienda e data
+  var printHeader = document.createElement('div');
+  printHeader.className = 'print-header-auto';
+  printHeader.innerHTML =
+    '<div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:12px;">' +
+      '<div>' +
+        '<div style="font-family:sans-serif;font-size:18px;font-weight:700;">PF GESTIONALE</div>' +
+        '<div style="font-family:sans-serif;font-size:11px;color:#555;">' + _getSezioneName(sezione) + '</div>' +
+      '</div>' +
+      '<div style="font-family:sans-serif;font-size:11px;color:#555;text-align:right;">' +
+        'Stampato: ' + now + '<br>' +
+        'Operatore: ' + (_getOperatoreCorrente() || '—') +
+      '</div>' +
+    '</div>';
+
+  if (pageEl) pageEl.insertBefore(printHeader, pageEl.firstChild);
+
+  setTimeout(function() {
+    window.print();
+    setTimeout(function() {
+      // Ripristina elementi nascosti
+      toHide.forEach(function(el) { el.style.removeProperty('display'); });
+      // Rimuovi header stampa
+      if (printHeader.parentNode) printHeader.parentNode.removeChild(printHeader);
+    }, 800);
+  }, 120);
+}
+
+function _getSezioneName(id) {
+  var map = {
+    'temperature':       '🌡️ Scheda Controllo Temperature',
+    'rintracciabilita':  '📦 Rintracciabilità Merci in Arrivo',
+    'pulizie-giornaliera': '✅ Scheda Controllo Pulizie Giornaliera',
+    'pulizie-mensile':   '📅 Pulizie Mensile',
+    'derattizzazione':   '🐀 Piano di Derattizzazione',
+    'abbattimento':      '❄️ Scheda Abbattimento',
+    'lavorazione':       '👨‍🍳 Scheda Lavorazione Prodotto',
+  };
+  return map[id] || id;
+}
+
+function _getOperatoreCorrente() {
+  try {
+    var admin = JSON.parse(localStorage.getItem('pfg_admin') || '{}');
+    return admin.operatore || admin.azienda || '';
+  } catch(e) { return ''; }
+}
+
+function escHtml(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function formatDateIT(d) {
+  if (!d) return '';
+  var p = d.split('-');
+  if (p.length === 3) return p[2]+'/'+p[1]+'/'+p[0];
+  return d;
+}
+
 checkAuth();
 if(isLoggedIn()) initHero();
 </script>
@@ -5696,6 +6306,198 @@ if(isLoggedIn()) initHero();
           onkeydown="if(event.key==='Enter'){ var v=this.value.trim(); if(v){ scanChiudi(); scanCerca(v); } }">
         <button class="sm-go" onclick="var v=document.getElementById('smManual').value.trim(); if(v){ scanChiudi(); scanCerca(v); }">→</button>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ABBATTIMENTO ═══ -->
+<div id="page-abbattimento" class="page">
+  <div class="section-header">
+    <h2>❄️ SCHEDA ABBATTIMENTO</h2>
+    <div style="display:flex;gap:.5rem;align-items:center;">
+      <span class="badge" id="ablDateBadge"></span>
+      <button class="btn-print" onclick="stampaPagina('abbattimento')">🖨️ STAMPA PDF</button>
+    </div>
+  </div>
+  <div class="print-header">
+    <h1>❄️ Scheda Abbattimento</h1>
+    <p id="ablPrintDate"></p>
+  </div>
+
+  <!-- FORM NUOVA REGISTRAZIONE -->
+  <div class="card abl-form-wrap" id="ablFormWrap">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+      <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;letter-spacing:2px;">+ NUOVA REGISTRAZIONE</h3>
+    </div>
+
+    <div class="abl-form-grid cols3">
+      <div class="abl-field">
+        <label>Data</label>
+        <input type="date" id="ablData">
+      </div>
+      <div class="abl-field">
+        <label>Ora Inizio</label>
+        <input type="time" id="ablOraInizio">
+      </div>
+      <div class="abl-field">
+        <label>Ora Fine</label>
+        <input type="time" id="ablOraFine">
+      </div>
+    </div>
+
+    <div class="abl-form-grid cols3">
+      <div class="abl-field">
+        <label>Prodotto / Preparazione</label>
+        <input type="text" id="ablProdotto" placeholder="es. Petto di pollo, Ragù...">
+      </div>
+      <div class="abl-field">
+        <label>Quantità</label>
+        <div class="unit">
+          <input type="text" id="ablQuantita" placeholder="es. 2 kg">
+        </div>
+      </div>
+      <div class="abl-field">
+        <label>Operatore</label>
+        <input type="text" id="ablOperatore" placeholder="Nome operatore">
+      </div>
+    </div>
+
+    <div class="abl-form-grid">
+      <div class="abl-field">
+        <label>Temperatura Inizio (°C)</label>
+        <div class="unit">
+          <input type="number" id="ablTempInizio" placeholder="es. 65" step="0.1">
+          <span>°C</span>
+        </div>
+      </div>
+      <div class="abl-field">
+        <label>Temperatura Fine (°C)</label>
+        <div class="unit">
+          <input type="number" id="ablTempFine" placeholder="es. -18" step="0.1">
+          <span>°C</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="abl-form-grid cols1">
+      <div class="abl-field">
+        <label>Note</label>
+        <textarea id="ablNote" placeholder="Note aggiuntive, anomalie, riferimenti lotti..."></textarea>
+      </div>
+    </div>
+
+    <button class="btn btn-primary" onclick="ablSalva()" style="margin-top:.5rem;">
+      💾 SALVA REGISTRAZIONE
+    </button>
+  </div>
+
+  <!-- STORICO -->
+  <div class="card" style="margin-top:1.2rem;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem;">
+      <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;letter-spacing:2px;">📋 STORICO ABBATTIMENTI</h3>
+      <div style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;">
+        <input type="month" id="ablFiltroMese" onchange="ablRenderStorico()"
+          style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:.4rem .7rem;color:var(--white);font-family:'Barlow',sans-serif;outline:none;">
+        <span id="ablCount" class="badge">0 record</span>
+      </div>
+    </div>
+    <div id="ablStorico">
+      <p style="color:var(--gray);font-size:.9rem;">Nessuna registrazione.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ LAVORAZIONE PRODOTTO ═══ -->
+<div id="page-lavorazione" class="page">
+  <div class="section-header">
+    <h2>👨‍🍳 SCHEDA LAVORAZIONE PRODOTTO</h2>
+    <div style="display:flex;gap:.5rem;align-items:center;">
+      <span class="badge" id="lavDateBadge"></span>
+      <button class="btn-print" onclick="stampaPagina('lavorazione')">🖨️ STAMPA PDF</button>
+    </div>
+  </div>
+  <div class="print-header">
+    <h1>👨‍🍳 Scheda Lavorazione Prodotto</h1>
+    <p id="lavPrintDate"></p>
+  </div>
+
+  <!-- TEMPLATE SELECTOR -->
+  <div class="card abl-form-wrap" id="lavFormWrap">
+    <div class="tmpl-bar">
+      <label>📋 RICETTA SALVATA</label>
+      <select id="lavTemplateSel" onchange="lavCaricaTemplate()">
+        <option value="">— nuova scheda vuota —</option>
+      </select>
+      <button class="btn btn-outline btn-sm" onclick="lavSalvaTemplate()" title="Salva ricetta corrente come template">💾 SALVA RICETTA</button>
+      <button class="btn btn-sm" style="background:rgba(231,76,60,.2);border:1px solid rgba(231,76,60,.3);color:#e74c3c;" onclick="lavEliminaTemplate()" title="Elimina template selezionato">🗑️</button>
+    </div>
+
+    <div class="abl-form-grid cols3">
+      <div class="abl-field">
+        <label>Data Produzione</label>
+        <input type="date" id="lavData">
+      </div>
+      <div class="abl-field">
+        <label>Nome Prodotto Finito</label>
+        <input type="text" id="lavProdotto" placeholder="es. Parmigiana di Melanzane">
+      </div>
+      <div class="abl-field">
+        <label>Operatore</label>
+        <input type="text" id="lavOperatore" placeholder="Nome operatore">
+      </div>
+    </div>
+
+    <div class="abl-form-grid">
+      <div class="abl-field">
+        <label>Quantità Prodotta</label>
+        <input type="text" id="lavQuantita" placeholder="es. 5 porzioni, 2 kg...">
+      </div>
+      <div class="abl-field">
+        <label>Temperatura Cottura (°C)</label>
+        <div class="unit">
+          <input type="number" id="lavTempCottura" placeholder="es. 180" step="1">
+          <span>°C</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- INGREDIENTI -->
+    <div style="margin: 1rem 0 .5rem;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem;">
+        <h4 style="font-family:'Barlow Condensed',sans-serif;letter-spacing:2px;font-size:.95rem;">🧺 INGREDIENTI UTILIZZATI</h4>
+        <button class="btn btn-outline btn-sm" onclick="lavAggiungiIng()">+ AGGIUNGI</button>
+      </div>
+      <div class="ing-header">
+        <span>Ingrediente</span><span>Quantità</span><span>Lotto / Fornitore</span><span>Scadenza</span><span></span>
+      </div>
+      <div id="lavIngList"></div>
+    </div>
+
+    <div class="abl-form-grid cols1">
+      <div class="abl-field">
+        <label>Note di Lavorazione</label>
+        <textarea id="lavNote" placeholder="Procedura, temperature intermedie, anomalie, conservazione..."></textarea>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem;">
+      <button class="btn btn-primary" onclick="lavSalva()">💾 SALVA SCHEDA</button>
+      <button class="btn btn-outline" onclick="lavNuova()">✕ ANNULLA / NUOVA</button>
+    </div>
+  </div>
+
+  <!-- STORICO -->
+  <div class="card" style="margin-top:1.2rem;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem;">
+      <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;letter-spacing:2px;">📋 STORICO LAVORAZIONI</h3>
+      <div style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;">
+        <input type="month" id="lavFiltroMese" onchange="lavRenderStorico()"
+          style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:.4rem .7rem;color:var(--white);font-family:'Barlow',sans-serif;outline:none;">
+        <span id="lavCount" class="badge">0 record</span>
+      </div>
+    </div>
+    <div id="lavStorico">
+      <p style="color:var(--gray);font-size:.9rem;">Nessuna scheda salvata.</p>
     </div>
   </div>
 </div>
