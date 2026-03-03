@@ -6173,88 +6173,449 @@ function lavElimina(id) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-//  STAMPA PDF universale — funziona su tutti i moduli
+//  GENERAZIONE PDF PROFESSIONALE — jsPDF + autoTable
 // ═══════════════════════════════════════════════════════════════
-function stampaPagina(sezione) {
+
+function _caricarjsPDF(cb) {
+  if (window.jspdf && window.jspdf.jsPDF) { cb(); return; }
+  var s1 = document.createElement('script');
+  s1.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+  s1.onload = function() {
+    var s2 = document.createElement('script');
+    s2.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js';
+    s2.onload = cb;
+    s2.onerror = function(){ alert('Errore caricamento plugin tabella PDF.'); };
+    document.head.appendChild(s2);
+  };
+  s1.onerror = function(){ alert('Errore caricamento libreria PDF.'); };
+  document.head.appendChild(s1);
+}
+
+function _pdfHeader(doc, titolo, sottotitolo) {
+  var az = (store && store.nomeAzienda) ? store.nomeAzienda : 'PF GESTIONALE';
   var now = new Date().toLocaleString('it-IT');
+  var W = doc.internal.pageSize.getWidth();
 
-  // Aggiorna date stampa dove presenti
-  var dateMap = {
-    'abbattimento': 'ablPrintDate',
-    'lavorazione':  'lavPrintDate'
-  };
-  if (dateMap[sezione]) {
-    var el = document.getElementById(dateMap[sezione]);
-    if (el) el.textContent = 'Stampato il ' + now;
+  // Sfondo header
+  doc.setFillColor(30, 58, 122);
+  doc.rect(0, 0, W, 28, 'F');
+
+  // Logo/nome azienda
+  doc.setTextColor(255, 255, 255);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(14);
+  doc.text(az.toUpperCase(), 14, 11);
+
+  // Titolo modulo
+  doc.setFontSize(10);
+  doc.setFont('helvetica', 'normal');
+  doc.text(titolo, 14, 19);
+
+  // Data stampa a destra
+  doc.setFontSize(8);
+  doc.text('Stampato: ' + now, W - 14, 11, { align: 'right' });
+  if (sottotitolo) doc.text(sottotitolo, W - 14, 19, { align: 'right' });
+
+  // Linea accent
+  doc.setFillColor(212, 137, 10);
+  doc.rect(0, 28, W, 1.5, 'F');
+
+  doc.setTextColor(0, 0, 0);
+  return 36; // y di partenza
+}
+
+function _pdfFooter(doc) {
+  var W = doc.internal.pageSize.getWidth();
+  var H = doc.internal.pageSize.getHeight();
+  var pages = doc.internal.getNumberOfPages();
+  for (var i = 1; i <= pages; i++) {
+    doc.setPage(i);
+    doc.setFillColor(245, 247, 251);
+    doc.rect(0, H - 10, W, 10, 'F');
+    doc.setFontSize(7);
+    doc.setTextColor(120, 120, 120);
+    doc.text('PF GESTIONALE — Documento generato automaticamente', 14, H - 3);
+    doc.text('Pagina ' + i + ' di ' + pages, W - 14, H - 3, { align: 'right' });
   }
+}
 
-  // Elementi da nascondere durante la stampa (form, pulsanti, input)
-  var toHide = [];
-  var hideSelectors = [
-    '.abl-form-wrap', '.reg-form-panel', '#regFormPanel',
-    '.pulizie-hub', '.scan-strip',
-    '[id$="FormWrap"]', '.info-box'
-  ];
-  // Nascondi solo quelli nella pagina corrente
-  var pageEl = document.getElementById('page-' + sezione);
-  if (pageEl) {
-    hideSelectors.forEach(function(sel) {
-      pageEl.querySelectorAll(sel).forEach(function(el) {
-        if (el.style.display !== 'none') {
-          toHide.push(el);
-          el.style.setProperty('display', 'none', 'important');
-        }
+function _pdfTableStyle() {
+  return {
+    headStyles: {
+      fillColor: [30, 58, 122],
+      textColor: [255, 255, 255],
+      fontStyle: 'bold',
+      fontSize: 8,
+      cellPadding: 3,
+    },
+    bodyStyles: {
+      fontSize: 8,
+      cellPadding: 2.5,
+      textColor: [40, 40, 40],
+    },
+    alternateRowStyles: {
+      fillColor: [245, 247, 251],
+    },
+    tableLineColor: [200, 210, 225],
+    tableLineWidth: 0.3,
+    margin: { left: 14, right: 14 },
+  };
+}
+
+// ── TEMPERATURE ──────────────────────────────────────────────────
+function pdfTemperature() {
+  _caricarjsPDF(function() {
+    var doc = new jspdf.jsPDF({ orientation: 'landscape' });
+    var mese = document.getElementById('tempTabStorico') ?
+      (document.getElementById('tempFiltroMese') ? document.getElementById('tempFiltroMese').value : '') : '';
+    var y = _pdfHeader(doc, '🌡️ SCHEDA CONTROLLO TEMPERATURE', mese ? 'Mese: ' + mese : 'Tutto lo storico');
+
+    var rilevazioni = (store.tempRilevazioni || []).slice().reverse();
+    if (mese) rilevazioni = rilevazioni.filter(function(r){ return r.data && r.data.startsWith(mese); });
+
+    if (!rilevazioni.length) {
+      doc.setFontSize(10); doc.text('Nessuna rilevazione trovata.', 14, y + 10);
+    } else {
+      // Colonne: data + una per ogni apparatura
+      var apparature = store.apparature || [];
+      var headers = ['Data', 'Ora'].concat(apparature.map(function(a){ return a.nome; })).concat(['Operatore', 'Note']);
+      var rows = rilevazioni.map(function(r) {
+        var riga = [r.data ? _fmtData(r.data) : '—', r.ora || '—'];
+        apparature.forEach(function(a) {
+          var val = r.valori && r.valori[a.nome] !== undefined ? r.valori[a.nome] + ' °C' : '—';
+          riga.push(val);
+        });
+        riga.push(r.operatore || '—');
+        riga.push(r.note || '');
+        return riga;
       });
+
+      doc.autoTable(Object.assign({}, _pdfTableStyle(), {
+        startY: y,
+        head: [headers],
+        body: rows,
+        columnStyles: { 0: { cellWidth: 22 }, 1: { cellWidth: 14 } },
+      }));
+    }
+    _pdfFooter(doc);
+    doc.save('Temperature_' + _fmtDataFile() + '.pdf');
+  });
+}
+
+// ── RINTRACCIABILITÀ ─────────────────────────────────────────────
+function pdfRintracciabilita() {
+  _caricarjsPDF(function() {
+    var doc = new jspdf.jsPDF({ orientation: 'landscape' });
+    var y = _pdfHeader(doc, '📦 RINTRACCIABILITÀ MERCI IN ARRIVO', 'Registro completo');
+
+    var records = (store.rintracciabilita || []).slice().reverse();
+    if (!records.length) {
+      doc.setFontSize(10); doc.text('Nessuna registrazione trovata.', 14, y + 10);
+    } else {
+      doc.autoTable(Object.assign({}, _pdfTableStyle(), {
+        startY: y,
+        head: [['Data', 'Ora', 'Prodotto', 'Fornitore', 'DDT/Lotto', 'Quantità', 'T°C', 'Conformità', 'Operatore', 'Note']],
+        body: records.map(function(r) {
+          return [
+            r.data ? _fmtData(r.data) : '—',
+            r.ora || '—',
+            r.prodotto || '—',
+            r.fornitore || '—',
+            r.ddt || '—',
+            r.quantita || '—',
+            r.temperatura ? r.temperatura + ' °C' : '—',
+            r.conforme === true ? '✓ Conforme' : r.conforme === false ? '✗ Non conf.' : '—',
+            r.operatore || '—',
+            r.note || '',
+          ];
+        }),
+        columnStyles: {
+          0: { cellWidth: 20 }, 1: { cellWidth: 14 }, 2: { cellWidth: 30 },
+          3: { cellWidth: 28 }, 7: { cellWidth: 20 },
+        },
+      }));
+    }
+    _pdfFooter(doc);
+    doc.save('Rintracciabilita_' + _fmtDataFile() + '.pdf');
+  });
+}
+
+// ── PULIZIE GIORNALIERA ──────────────────────────────────────────
+function pdfPulizieGiornaliera() {
+  _caricarjsPDF(function() {
+    var doc = new jspdf.jsPDF();
+    var storico = (store.pulizieStorico || store.pulizieStotico || []).slice().reverse();
+    var y = _pdfHeader(doc, '✅ SCHEDA CONTROLLO PULIZIE GIORNALIERA', storico.length + ' giorni registrati');
+
+    if (!storico.length) {
+      doc.setFontSize(10); doc.text('Nessun dato trovato.', 14, y + 10);
+    } else {
+      // Una riga per giorno, colonne per attività
+      var tutteAttivita = [];
+      storico.forEach(function(giorno) {
+        (giorno.attivita || []).forEach(function(a) {
+          if (tutteAttivita.indexOf(a.nome) === -1) tutteAttivita.push(a.nome);
+        });
+      });
+
+      if (tutteAttivita.length === 0) {
+        // Formato semplice
+        doc.autoTable(Object.assign({}, _pdfTableStyle(), {
+          startY: y,
+          head: [['Data', 'Attività completate', 'Note']],
+          body: storico.map(function(g) {
+            return [
+              _fmtData(g.data),
+              (g.attivita || []).filter(function(a){ return a.fatto; }).map(function(a){ return a.nome; }).join(', ') || '—',
+              g.note || '',
+            ];
+          }),
+        }));
+      } else {
+        var headers = ['Data'].concat(tutteAttivita.slice(0, 8)).concat(['Note']);
+        doc.autoTable(Object.assign({}, _pdfTableStyle(), {
+          startY: y,
+          head: [headers],
+          body: storico.map(function(g) {
+            var riga = [_fmtData(g.data)];
+            tutteAttivita.slice(0, 8).forEach(function(nomeAtt) {
+              var a = (g.attivita || []).find(function(x){ return x.nome === nomeAtt; });
+              riga.push(a ? (a.fatto ? '✓ ' + (a.ora || '') : '✗') : '—');
+            });
+            riga.push(g.note || '');
+            return riga;
+          }),
+          columnStyles: { 0: { cellWidth: 20 } },
+        }));
+      }
+    }
+    _pdfFooter(doc);
+    doc.save('Pulizie_Giornaliere_' + _fmtDataFile() + '.pdf');
+  });
+}
+
+// ── PULIZIE MENSILE ───────────────────────────────────────────────
+function pdfPulizieMensile() {
+  _caricarjsPDF(function() {
+    var doc = new jspdf.jsPDF({ orientation: 'landscape' });
+    var mensili = store.pulizieMensili || [];
+    var y = _pdfHeader(doc, '📅 PIANO PULIZIE MENSILE', mensili.length + ' attività pianificate');
+
+    if (!mensili.length) {
+      doc.setFontSize(10); doc.text('Nessuna attività pianificata.', 14, y + 10);
+    } else {
+      doc.autoTable(Object.assign({}, _pdfTableStyle(), {
+        startY: y,
+        head: [['Attività', 'Orario', 'Frequenza', 'Mesi', 'Responsabile', 'Note']],
+        body: mensili.map(function(m) {
+          return [
+            m.nome || m.attivita || '—',
+            m.orario || m.ora || '—',
+            m.frequenza || '—',
+            Array.isArray(m.mesi) ? m.mesi.join(', ') : (m.mesi || 'Tutti'),
+            m.responsabile || m.operatore || '—',
+            m.note || '',
+          ];
+        }),
+        columnStyles: { 0: { cellWidth: 50 }, 4: { cellWidth: 30 } },
+      }));
+    }
+    _pdfFooter(doc);
+    doc.save('Pulizie_Mensile_' + _fmtDataFile() + '.pdf');
+  });
+}
+
+// ── DERATTIZZAZIONE ───────────────────────────────────────────────
+function pdfDerattizzazione() {
+  _caricarjsPDF(function() {
+    var doc = new jspdf.jsPDF({ orientation: 'landscape' });
+    var derat = store.derattizzazione || {};
+    var interventi = (derat.interventi || []).slice().reverse();
+    var aree = derat.areeMonitorate || [];
+    var y = _pdfHeader(doc, '🐀 PIANO DI DERATTIZZAZIONE', interventi.length + ' interventi registrati');
+
+    // Tabella aree monitorate
+    if (aree.length) {
+      doc.setFontSize(9); doc.setFont('helvetica', 'bold');
+      doc.text('AREE MONITORATE', 14, y); y += 4;
+      doc.autoTable(Object.assign({}, _pdfTableStyle(), {
+        startY: y,
+        head: [['Area', 'Tipo Presidio', 'Posizione', 'Note']],
+        body: aree.map(function(a) {
+          return [a.nome || '—', a.tipo || '—', a.posizione || '—', a.note || ''];
+        }),
+      }));
+      y = doc.lastAutoTable.finalY + 8;
+    }
+
+    // Tabella interventi
+    if (interventi.length) {
+      doc.setFontSize(9); doc.setFont('helvetica', 'bold');
+      doc.text('REGISTRO INTERVENTI', 14, y); y += 4;
+      doc.autoTable(Object.assign({}, _pdfTableStyle(), {
+        startY: y,
+        head: [['Data', 'Tipo Intervento', 'Area', 'Prodotto Usato', 'Operatore/Ditta', 'Esito', 'Prossimo', 'Note']],
+        body: interventi.map(function(i) {
+          return [
+            i.data ? _fmtData(i.data) : '—',
+            i.tipo || '—',
+            i.area || '—',
+            i.prodotto || '—',
+            i.operatore || i.ditta || '—',
+            i.esito || '—',
+            i.prossimoIntervento ? _fmtData(i.prossimoIntervento) : '—',
+            i.note || '',
+          ];
+        }),
+        columnStyles: { 0: { cellWidth: 20 }, 7: { cellWidth: 30 } },
+      }));
+    } else if (!aree.length) {
+      doc.setFontSize(10); doc.text('Nessun dato registrato.', 14, y + 10);
+    }
+
+    _pdfFooter(doc);
+    doc.save('Derattizzazione_' + _fmtDataFile() + '.pdf');
+  });
+}
+
+// ── ABBATTIMENTO ──────────────────────────────────────────────────
+function pdfAbbattimento() {
+  _caricarjsPDF(function() {
+    var doc = new jspdf.jsPDF({ orientation: 'landscape' });
+    var records = JSON.parse(localStorage.getItem('abl_records') || '[]');
+    var mese = document.getElementById('ablFiltroMese') ? document.getElementById('ablFiltroMese').value : '';
+    if (mese) records = records.filter(function(r){ return r.data && r.data.startsWith(mese); });
+    var y = _pdfHeader(doc, '❄️ SCHEDA ABBATTIMENTO', (mese ? 'Mese: ' + mese : 'Tutto lo storico') + ' — ' + records.length + ' registrazioni');
+
+    if (!records.length) {
+      doc.setFontSize(10); doc.text('Nessuna registrazione trovata.', 14, y + 10);
+    } else {
+      doc.autoTable(Object.assign({}, _pdfTableStyle(), {
+        startY: y,
+        head: [['Data', 'Inizio', 'Fine', 'Prodotto', 'Quantità', 'T° Inizio', 'T° Fine', 'Esito', 'Operatore', 'Note']],
+        body: records.map(function(r) {
+          var tFine = parseFloat(r.tFine);
+          var esito = isNaN(tFine) ? '—' : tFine <= -18 ? '✓ Conforme' : tFine <= -10 ? '⚠ Attenzione' : '✗ Non conf.';
+          return [
+            r.data ? _fmtData(r.data) : '—',
+            r.oraInizio || '—',
+            r.oraFine || '—',
+            r.prodotto || '—',
+            r.quantita || '—',
+            r.tInizio ? r.tInizio + ' °C' : '—',
+            r.tFine   ? r.tFine   + ' °C' : '—',
+            esito,
+            r.operatore || '—',
+            r.note || '',
+          ];
+        }),
+        columnStyles: {
+          0: { cellWidth: 20 }, 1: { cellWidth: 14 }, 2: { cellWidth: 14 },
+          3: { cellWidth: 32 }, 7: { cellWidth: 22 },
+        },
+        didParseCell: function(data) {
+          if (data.section === 'body' && data.column.index === 7) {
+            var v = data.cell.raw;
+            if (v && v.indexOf('✓') >= 0)      data.cell.styles.textColor = [39, 174, 96];
+            else if (v && v.indexOf('⚠') >= 0) data.cell.styles.textColor = [243, 156, 18];
+            else if (v && v.indexOf('✗') >= 0) data.cell.styles.textColor = [192, 57, 43];
+          }
+        },
+      }));
+    }
+    _pdfFooter(doc);
+    doc.save('Abbattimento_' + _fmtDataFile() + '.pdf');
+  });
+}
+
+// ── LAVORAZIONE ───────────────────────────────────────────────────
+function pdfLavorazione() {
+  _caricarjsPDF(function() {
+    var doc = new jspdf.jsPDF({ orientation: 'landscape' });
+    var records = JSON.parse(localStorage.getItem('lav_records') || '[]');
+    var mese = document.getElementById('lavFiltroMese') ? document.getElementById('lavFiltroMese').value : '';
+    if (mese) records = records.filter(function(r){ return r.data && r.data.startsWith(mese); });
+    var y = _pdfHeader(doc, '👨‍🍳 SCHEDA LAVORAZIONE PRODOTTO', (mese ? 'Mese: ' + mese : 'Tutto lo storico') + ' — ' + records.length + ' schede');
+
+    records.forEach(function(r, idx) {
+      if (idx > 0) y = doc.lastAutoTable ? doc.lastAutoTable.finalY + 10 : y;
+      if (y > 180) { doc.addPage(); y = _pdfHeader(doc, '👨‍🍳 SCHEDA LAVORAZIONE PRODOTTO', '(continua)'); }
+
+      // Intestazione scheda
+      doc.setFontSize(9); doc.setFont('helvetica', 'bold');
+      doc.setTextColor(30, 58, 122);
+      doc.text((idx + 1) + '. ' + (r.prodotto || '—') + '  —  ' + _fmtData(r.data), 14, y);
+      doc.setFont('helvetica', 'normal'); doc.setTextColor(0, 0, 0);
+      y += 5;
+
+      // Info generali
+      doc.autoTable(Object.assign({}, _pdfTableStyle(), {
+        startY: y,
+        head: [['Prodotto Finito', 'Data', 'Quantità', 'T° Cottura', 'Operatore', 'Note']],
+        body: [[
+          r.prodotto || '—',
+          _fmtData(r.data),
+          r.quantita || '—',
+          r.tempCottura ? r.tempCottura + ' °C' : '—',
+          r.operatore || '—',
+          r.note || '',
+        ]],
+        headStyles: { fillColor: [60, 90, 150] },
+      }));
+      y = doc.lastAutoTable.finalY + 3;
+
+      // Ingredienti
+      var ings = (r.ingredienti || []).filter(function(i){ return i.nome; });
+      if (ings.length) {
+        doc.autoTable(Object.assign({}, _pdfTableStyle(), {
+          startY: y,
+          head: [['  Ingrediente', 'Quantità', 'Lotto / Fornitore', 'Scadenza']],
+          body: ings.map(function(i) {
+            return ['  ' + (i.nome || '—'), i.qty || '—', i.lotto || '—', i.scad ? _fmtData(i.scad) : '—'];
+          }),
+          headStyles: { fillColor: [100, 130, 180], fontSize: 7 },
+          bodyStyles: { fontSize: 7, fillColor: [250, 252, 255] },
+          alternateRowStyles: { fillColor: [240, 245, 255] },
+        }));
+        y = doc.lastAutoTable.finalY + 6;
+      }
     });
-  }
 
-  // Aggiungi header stampa con nome azienda e data
-  var printHeader = document.createElement('div');
-  printHeader.className = 'print-header-auto';
-  printHeader.innerHTML =
-    '<div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:12px;">' +
-      '<div>' +
-        '<div style="font-family:sans-serif;font-size:18px;font-weight:700;">PF GESTIONALE</div>' +
-        '<div style="font-family:sans-serif;font-size:11px;color:#555;">' + _getSezioneName(sezione) + '</div>' +
-      '</div>' +
-      '<div style="font-family:sans-serif;font-size:11px;color:#555;text-align:right;">' +
-        'Stampato: ' + now + '<br>' +
-        'Operatore: ' + (_getOperatoreCorrente() || '—') +
-      '</div>' +
-    '</div>';
+    if (!records.length) {
+      doc.setFontSize(10); doc.text('Nessuna scheda trovata.', 14, y + 10);
+    }
 
-  if (pageEl) pageEl.insertBefore(printHeader, pageEl.firstChild);
-
-  setTimeout(function() {
-    window.print();
-    setTimeout(function() {
-      // Ripristina elementi nascosti
-      toHide.forEach(function(el) { el.style.removeProperty('display'); });
-      // Rimuovi header stampa
-      if (printHeader.parentNode) printHeader.parentNode.removeChild(printHeader);
-    }, 800);
-  }, 120);
+    _pdfFooter(doc);
+    doc.save('Lavorazione_' + _fmtDataFile() + '.pdf');
+  });
 }
 
-function _getSezioneName(id) {
+// ── Dispatcher ────────────────────────────────────────────────────
+function stampaPagina(sezione) {
   var map = {
-    'temperature':       '🌡️ Scheda Controllo Temperature',
-    'rintracciabilita':  '📦 Rintracciabilità Merci in Arrivo',
-    'pulizie-giornaliera': '✅ Scheda Controllo Pulizie Giornaliera',
-    'pulizie-mensile':   '📅 Pulizie Mensile',
-    'derattizzazione':   '🐀 Piano di Derattizzazione',
-    'abbattimento':      '❄️ Scheda Abbattimento',
-    'lavorazione':       '👨‍🍳 Scheda Lavorazione Prodotto',
+    'temperature':         pdfTemperature,
+    'rintracciabilita':    pdfRintracciabilita,
+    'pulizie-giornaliera': pdfPulizieGiornaliera,
+    'pulizie-mensile':     pdfPulizieMensile,
+    'derattizzazione':     pdfDerattizzazione,
+    'abbattimento':        pdfAbbattimento,
+    'lavorazione':         pdfLavorazione,
   };
-  return map[id] || id;
+  if (map[sezione]) { map[sezione](); }
+  else { alert('PDF non disponibile per questa sezione.'); }
 }
 
-function _getOperatoreCorrente() {
-  try {
-    var admin = JSON.parse(localStorage.getItem('pfg_admin') || '{}');
-    return admin.operatore || admin.azienda || '';
-  } catch(e) { return ''; }
+function _fmtData(d) {
+  if (!d) return '—';
+  var p = d.split('-');
+  if (p.length === 3) return p[2] + '/' + p[1] + '/' + p[0];
+  return d;
 }
+function _fmtDataFile() {
+  var now = new Date();
+  return now.getFullYear() + ('0'+(now.getMonth()+1)).slice(-2) + ('0'+now.getDate()).slice(-2);
+}
+
 
 function escHtml(s) {
   return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
