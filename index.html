@@ -2355,6 +2355,96 @@
   }
   .print-header { display: none; }
 
+  /* ═══ ETICHETTA MODALE ═══ */
+  #etichettaModal {
+    display: none; position: fixed; inset: 0; z-index: 3000;
+    background: rgba(0,0,0,0.6); align-items: center; justify-content: center;
+  }
+  #etichettaModal.open { display: flex; }
+  .etich-wrap {
+    background: #fff; border-radius: 16px; padding: 2rem;
+    max-width: 480px; width: 90%; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+  .etich-title {
+    font-family: 'Barlow Condensed',sans-serif; font-size: 1.1rem;
+    font-weight: 700; letter-spacing: 2px; color: #1a2c4a;
+    margin-bottom: 1.2rem; text-transform: uppercase;
+    border-bottom: 2px solid #e8edf5; padding-bottom: .6rem;
+  }
+
+  /* Anteprima etichetta */
+  .etich-preview {
+    border: 2px dashed #c8d4e8; border-radius: 10px;
+    padding: 1rem 1.2rem; margin-bottom: 1.2rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    position: relative; background: #fafcff;
+  }
+  .etich-preview-brand {
+    font-size: .65rem; letter-spacing: 3px; text-transform: uppercase;
+    color: #8899aa; margin-bottom: .3rem;
+  }
+  .etich-preview-nome {
+    font-size: 1.4rem; font-weight: 900; color: #1a2c4a;
+    text-transform: uppercase; letter-spacing: 1px; line-height: 1.1;
+    margin-bottom: .5rem;
+  }
+  .etich-preview-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: .35rem .8rem; margin-top: .6rem;
+  }
+  .etich-preview-field strong {
+    display: block; font-size: .55rem; letter-spacing: 1.5px;
+    text-transform: uppercase; color: #8899aa;
+  }
+  .etich-preview-field span {
+    font-size: .85rem; color: #1a2c4a; font-weight: 700;
+  }
+  .etich-preview-scad {
+    margin-top: .7rem; background: #1e3a7a; color: #fff;
+    border-radius: 6px; padding: .4rem .8rem; display: inline-block;
+    font-size: .85rem; font-weight: 700; letter-spacing: 1px;
+  }
+  .etich-preview-scad.scad-warn { background: #c0392b; }
+  .etich-preview-note {
+    font-size: .7rem; color: #6b7c93; margin-top: .5rem;
+    font-style: italic; font-family: 'Barlow', sans-serif;
+  }
+
+  /* Controlli etichetta */
+  .etich-controls { display: flex; gap: .5rem; flex-wrap: wrap; }
+  .etich-size-btn {
+    background: #f0f3fa; border: 1.5px solid #c8d4e8; border-radius: 6px;
+    padding: .35rem .8rem; font-size: .75rem; font-weight: 700;
+    font-family: 'Barlow Condensed',sans-serif; cursor: pointer;
+    letter-spacing: 1px; color: #2c3e50; transition: all .15s;
+  }
+  .etich-size-btn.active, .etich-size-btn:hover {
+    background: #1e3a7a; color: #fff; border-color: #1e3a7a;
+  }
+
+  /* Tasto stampa etichetta nel record */
+  .btn-etichetta {
+    display: inline-flex; align-items: center; gap: .3rem;
+    background: rgba(30,58,122,.08); border: 1.5px solid rgba(30,58,122,.2);
+    color: #1e3a7a; border-radius: 6px; padding: .3rem .75rem;
+    font-family: 'Barlow Condensed',sans-serif; font-size: .78rem;
+    font-weight: 700; letter-spacing: 1px; cursor: pointer;
+    transition: all .2s; text-transform: uppercase;
+  }
+  .btn-etichetta:hover {
+    background: #1e3a7a; color: #fff; border-color: #1e3a7a;
+  }
+
+  /* Print etichetta */
+  @media print {
+    body.printing-etichetta * { display: none !important; }
+    body.printing-etichetta #etichetta-print-area { display: block !important; }
+  }
+  #etichetta-print-area {
+    display: none;
+    font-family: 'Barlow Condensed', sans-serif;
+  }
+
 </style>
 </head>
 <body>
@@ -5952,6 +6042,7 @@ function ablRenderStorico() {
         '<div class="abl-record-meta">' +
           (tempClass ? '<span class="badge ' + tempClass + '">' + tempLabel + '</span>' : '') +
           '<span class="badge">' + formatDateIT(r.data) + '</span>' +
+          '<button class="btn-etichetta" onclick="apriEtichettaAbl(' + r.id + ')">🏷️ ETICHETTA</button>' +
           '<button onclick="ablElimina(' + r.id + ')" style="background:rgba(231,76,60,.15);border:1px solid rgba(231,76,60,.3);color:#e74c3c;border-radius:6px;padding:.2rem .6rem;cursor:pointer;font-size:.75rem;">🗑️</button>' +
         '</div>' +
       '</div>' +
@@ -6147,6 +6238,7 @@ function lavRenderStorico() {
         '<div class="abl-record-meta">' +
           '<span class="badge">' + formatDateIT(r.data) + '</span>' +
           (r.operatore ? '<span class="badge">' + escHtml(r.operatore) + '</span>' : '') +
+          '<button class="btn-etichetta" onclick="apriEtichettaLav(' + r.id + ')">🏷️ ETICHETTA</button>' +
           '<button onclick="lavElimina(' + r.id + ')" style="background:rgba(231,76,60,.15);border:1px solid rgba(231,76,60,.3);color:#e74c3c;border-radius:6px;padding:.2rem .6rem;cursor:pointer;font-size:.75rem;">🗑️</button>' +
         '</div>' +
       '</div>' +
@@ -6171,6 +6263,268 @@ function lavElimina(id) {
   localStorage.setItem('lav_records', JSON.stringify(records.filter(function(r){ return r.id !== id; })));
   lavRenderStorico();
 }
+
+// ═══════════════════════════════════════════════════════════════
+//  DATABASE DURATE HACCP — linee guida ministeriali + FDA
+//  Abbattuto = congelatore (-18°C), Lavorato = frigo (+4°C)
+// ═══════════════════════════════════════════════════════════════
+var _durateFrigo = [
+  // Preparazioni cotte — frigo 0/+4°C
+  { k:['parmigiana','melanzane'],      giorni:3, note:'Piatto cotto con pomodoro e formaggio' },
+  { k:['lasagna','lasagne'],           giorni:3, note:'Pasta al forno con ragù/besciamella' },
+  { k:['ragù','ragu','bolognese'],     giorni:3, note:'Sugo di carne cotto' },
+  { k:['polpette','polpetta'],         giorni:3, note:'Carne macinata cotta' },
+  { k:['arrosto'],                     giorni:4, note:'Carne arrosto intera' },
+  { k:['pollo','petto di pollo','chicken'], giorni:3, note:'Pollame cotto' },
+  { k:['pesce','branzino','orata','salmone','merluzzo','tonno'], giorni:2, note:'Pesce cotto — consumare entro 48h' },
+  { k:['frittura','fritto'],           giorni:2, note:'Prodotto fritto — qualità degrada rapidamente' },
+  { k:['pasta','rigatoni','penne','spaghetti','tagliatelle'], giorni:3, note:'Pasta condita cotta' },
+  { k:['risotto','riso'],              giorni:2, note:'Riso cotto — rischio bacillus cereus' },
+  { k:['zuppa','minestra','minestrone'], giorni:3, note:'Zuppe e minestroni' },
+  { k:['besciamella'],                 giorni:3, note:'Salsa cotta' },
+  { k:['crema','budino'],              giorni:3, note:'Crema pasticcera/dessert' },
+  { k:['torta','dolce','crostata'],    giorni:4, note:'Prodotto da forno' },
+  { k:['pizza'],                       giorni:3, note:'Pizza cotta' },
+  { k:['hamburger'],                   giorni:2, note:'Carne macinata cotta' },
+  { k:['cotoletta','milanese'],        giorni:3, note:'Carne impanata e cotta' },
+  { k:['insalata','mista'],            giorni:2, note:'Verdure crude/miste' },
+  { k:['verdure','patate','carote'],   giorni:4, note:'Verdure cotte' },
+  { k:['brodo'],                       giorni:3, note:'Brodo cotto' },
+  { k:['uova','frittata'],             giorni:3, note:'Uova cotte' },
+  { k:['formaggio','formaggi'],        giorni:5, note:'Formaggio porzionato' },
+  { k:['salumi','affettati','prosciutto'], giorni:4, note:'Salumi aperti' },
+];
+var _durateCongelo = [
+  // Abbattuto/congelato — congelatore -18°C
+  { k:['pesce','branzino','orata','salmone','merluzzo','tonno','frutti di mare'], mesi:3, note:'Pesce — HACCP max 3 mesi' },
+  { k:['pollo','tacchino','pollame','chicken'],  mesi:6, note:'Pollame intero o pezzi' },
+  { k:['carne macinata','hamburger','polpette'], mesi:4, note:'Carne macinata — max 4 mesi' },
+  { k:['manzo','vitello','maiale','agnello','arrosto','bistecca'], mesi:8, note:'Carne rossa intera' },
+  { k:['ragù','bolognese','sugo'],      mesi:3, note:'Sughi di carne cotti' },
+  { k:['lasagna','lasagne','pasta al forno'], mesi:3, note:'Piatti di pasta al forno' },
+  { k:['parmigiana'],                   mesi:3, note:'Piatti cotti con verdure/formaggio' },
+  { k:['brodo','zuppa','minestra'],     mesi:4, note:'Zuppe e brodi' },
+  { k:['verdure','spinaci','piselli','fagiolini'], mesi:12, note:'Verdure — lunga conservazione' },
+  { k:['pane','pizza','focaccia'],      mesi:3, note:'Prodotti da forno lievitati' },
+  { k:['torta','dolce','crostata'],     mesi:3, note:'Prodotti da forno dolci' },
+  { k:['crema','gelato'],               mesi:2, note:'Creme e dessert' },
+  { k:['frutti di mare','gamberi','cozze'], mesi:3, note:'Frutti di mare' },
+];
+
+// Cerca nel database per parole chiave
+function _calcolaScadenza(nomeProdotto, tipo) {
+  var nome = nomeProdotto.toLowerCase();
+  var db = tipo === 'congelo' ? _durateCongelo : _durateFrigo;
+  var match = null;
+  var maxScore = 0;
+
+  db.forEach(function(entry) {
+    var score = 0;
+    entry.k.forEach(function(kw) {
+      if (nome.indexOf(kw) >= 0) score += kw.length; // parole più lunghe = match più preciso
+    });
+    if (score > maxScore) { maxScore = score; match = entry; }
+  });
+
+  // Default se non trovato
+  if (!match) {
+    match = tipo === 'congelo'
+      ? { mesi: 3, note: 'Durata standard per prodotti cotti abbattuti' }
+      : { giorni: 3, note: 'Durata standard per preparazioni cotte' };
+  }
+
+  var dataBase = new Date();
+  var dataScad = new Date(dataBase);
+  if (tipo === 'congelo') {
+    dataScad.setMonth(dataScad.getMonth() + match.mesi);
+  } else {
+    dataScad.setDate(dataScad.getDate() + match.giorni);
+  }
+
+  return {
+    dataScad: dataScad,
+    durata: tipo === 'congelo' ? match.mesi + ' mesi' : match.giorni + ' giorni',
+    note: match.note,
+    tipo: tipo,
+  };
+}
+
+function _fmtDataEtich(d) {
+  return ('0'+d.getDate()).slice(-2) + '/' + ('0'+(d.getMonth()+1)).slice(-2) + '/' + d.getFullYear();
+}
+
+function _genLotto(id) {
+  var d = new Date();
+  return 'L' + d.getFullYear().toString().slice(-2) +
+    ('0'+(d.getMonth()+1)).slice(-2) +
+    ('0'+d.getDate()).slice(-2) + '-' +
+    String(id || Date.now()).slice(-4);
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  ETICHETTA — logica apertura/render/stampa
+// ═══════════════════════════════════════════════════════════════
+var _etichDati = null;
+var _etichFormato = 'piccola';
+
+function apriEtichetta(tipo, record) {
+  _etichDati = { tipo: tipo, record: record };
+  _etichFormato = 'piccola';
+  document.querySelectorAll('.etich-size-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelector('.etich-size-btn').classList.add('active');
+  document.getElementById('etichNoteExtra').value = '';
+  _renderEtichPreview();
+  document.getElementById('etichettaModal').classList.add('open');
+}
+
+function etichSetFormato(btn, formato) {
+  document.querySelectorAll('.etich-size-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  _etichFormato = formato;
+  _renderEtichPreview();
+}
+
+function _renderEtichPreview() {
+  if (!_etichDati) return;
+  var r = _etichDati.record;
+  var tipo = _etichDati.tipo; // 'congelo' | 'frigo'
+  var azienda = (store && store.nomeAzienda) ? store.nomeAzienda : 'PF GESTIONALE';
+  var prodotto = r.prodotto || '—';
+  var lotto = _genLotto(r.id);
+  var scad = _calcolaScadenza(prodotto, tipo);
+  var dataScadStr = _fmtDataEtich(scad.dataScad);
+  var dataOggi = _fmtDataEtich(new Date());
+  var noteExtra = document.getElementById('etichNoteExtra') ? document.getElementById('etichNoteExtra').value : '';
+  var conserv = tipo === 'congelo' ? 'Conservare a -18°C' : 'Conservare a +2/+4°C';
+  var ings = (r.ingredienti || []).filter(function(i){ return i.nome; }).map(function(i){ return i.nome; }).join(', ');
+
+  // Giorni rimanenti
+  var oggi = new Date(); oggi.setHours(0,0,0,0);
+  var scadDay = new Date(scad.dataScad); scadDay.setHours(0,0,0,0);
+  var diff = Math.round((scadDay - oggi) / 86400000);
+
+  var scadClass = diff <= 1 ? 'scad-warn' : '';
+
+  var html =
+    '<div class="etich-preview-brand">' + escHtml(azienda) + '</div>' +
+    '<div class="etich-preview-nome">' + escHtml(prodotto) + '</div>' +
+    '<div class="etich-preview-grid">' +
+      '<div class="etich-preview-field"><strong>Lotto</strong><span>' + lotto + '</span></div>' +
+      '<div class="etich-preview-field"><strong>Data prod.</strong><span>' + dataOggi + '</span></div>' +
+      (r.quantita ? '<div class="etich-preview-field"><strong>Quantità</strong><span>' + escHtml(r.quantita) + '</span></div>' : '') +
+      (r.operatore ? '<div class="etich-preview-field"><strong>Operatore</strong><span>' + escHtml(r.operatore) + '</span></div>' : '') +
+    '</div>' +
+    (ings ? '<div style="margin-top:.5rem;font-size:.72rem;color:#5a6a7e;"><strong style="font-size:.6rem;letter-spacing:1px;text-transform:uppercase;color:#8899aa;">Ingredienti: </strong>' + escHtml(ings) + '</div>' : '') +
+    '<div><span class="etich-preview-scad ' + scadClass + '">⏱ SCADENZA: ' + dataScadStr + ' (' + scad.durata + ')</span></div>' +
+    '<div style="margin-top:.4rem;font-size:.72rem;color:#1e3a7a;font-weight:600;">🌡 ' + conserv + '</div>' +
+    '<div class="etich-preview-note">' + escHtml(scad.note) + (noteExtra ? ' · ' + escHtml(noteExtra) : '') + '</div>';
+
+  document.getElementById('etichPreview').innerHTML = html;
+
+  // Salva dati per stampa
+  _etichDati.lotto = lotto;
+  _etichDati.dataScadStr = dataScadStr;
+  _etichDati.scad = scad;
+  _etichDati.conserv = conserv;
+  _etichDati.dataOggi = dataOggi;
+  _etichDati.ings = ings;
+}
+
+function etichStampa() {
+  if (!_etichDati) return;
+  var d = _etichDati;
+  var r = d.record;
+  var noteExtra = document.getElementById('etichNoteExtra').value;
+  var azienda = (store && store.nomeAzienda) ? store.nomeAzienda : 'PF GESTIONALE';
+
+  // Dimensioni etichetta in mm
+  var formati = { piccola: [50,30], media: [70,50], grande: [100,70] };
+  var fmt = formati[_etichFormato] || formati['piccola'];
+
+  _caricarjsPDF(function() {
+    var doc = new jspdf.jsPDF({
+      orientation: fmt[0] > fmt[1] ? 'landscape' : 'portrait',
+      unit: 'mm',
+      format: fmt,
+    });
+    var W = doc.internal.pageSize.getWidth();
+    var H = doc.internal.pageSize.getHeight();
+
+    // Sfondo bianco con bordo
+    doc.setFillColor(255,255,255);
+    doc.rect(0, 0, W, H, 'F');
+    doc.setDrawColor(30,58,122);
+    doc.setLineWidth(0.5);
+    doc.rect(1, 1, W-2, H-2);
+
+    // Header blu
+    doc.setFillColor(30,58,122);
+    doc.rect(1, 1, W-2, fmt[1] > 40 ? 7 : 5, 'F');
+    doc.setTextColor(255,255,255);
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(fmt[1] > 40 ? 5.5 : 4);
+    doc.text(azienda.toUpperCase(), 3, fmt[1] > 40 ? 5 : 3.8);
+
+    // Nome prodotto
+    var yy = fmt[1] > 40 ? 12 : 9;
+    doc.setTextColor(10,20,50);
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(fmt[1] > 40 ? 9 : 6.5);
+    var nomeLines = doc.splitTextToSize((r.prodotto||'').toUpperCase(), W-6);
+    doc.text(nomeLines, 3, yy);
+    yy += nomeLines.length * (fmt[1] > 40 ? 4.5 : 3.5);
+
+    // Lotto + data prod
+    doc.setFontSize(fmt[1] > 40 ? 5.5 : 4);
+    doc.setFont('helvetica','normal');
+    doc.setTextColor(80,80,80);
+    doc.text('Lotto: ' + d.lotto + '   Prodotto il: ' + d.dataOggi, 3, yy);
+    yy += fmt[1] > 40 ? 4 : 3;
+
+    // Quantità + operatore
+    if (r.quantita || r.operatore) {
+      var info = [];
+      if (r.quantita) info.push('Qt: ' + r.quantita);
+      if (r.operatore) info.push('Op: ' + r.operatore);
+      doc.text(info.join('   '), 3, yy);
+      yy += fmt[1] > 40 ? 4 : 3;
+    }
+
+    // Ingredienti (solo formato medio/grande)
+    if (d.ings && fmt[1] > 35) {
+      doc.setFontSize(4);
+      var ingLines = doc.splitTextToSize('Ingredienti: ' + d.ings, W-6);
+      doc.text(ingLines.slice(0,2), 3, yy);
+      yy += ingLines.slice(0,2).length * 3;
+    }
+
+    // Striscia scadenza
+    var scadH = fmt[1] > 40 ? 7 : 5;
+    var scadY = H - scadH - 1;
+    doc.setFillColor(30,58,122);
+    doc.rect(1, scadY, W-2, scadH, 'F');
+    doc.setTextColor(255,255,255);
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(fmt[1] > 40 ? 6 : 4.5);
+    doc.text('SCADE IL: ' + d.dataScadStr + '  (' + d.scad.durata + ')', 3, scadY + (scadH/2) + 1.5);
+
+    // Conservazione (sopra la striscia scadenza)
+    doc.setFillColor(240,245,255);
+    doc.rect(1, scadY - (fmt[1]>40?5:4), W-2, fmt[1]>40?5:4, 'F');
+    doc.setTextColor(30,58,122);
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(fmt[1]>40?5:3.8);
+    doc.text('🌡 ' + d.conserv, 3, scadY - (fmt[1]>40?1.5:1));
+
+    doc.save('Etichetta_' + (r.prodotto||'prodotto').replace(/\s+/g,'_') + '_' + d.lotto + '.pdf');
+  });
+}
+
+// ── Aggiorna preview quando si scrivono note extra ────────────────
+document.addEventListener('DOMContentLoaded', function() {
+  var ne = document.getElementById('etichNoteExtra');
+  if (ne) ne.addEventListener('input', _renderEtichPreview);
+});
 
 // ═══════════════════════════════════════════════════════════════
 //  GENERAZIONE PDF PROFESSIONALE — jsPDF + autoTable
@@ -6617,6 +6971,17 @@ function _fmtDataFile() {
 }
 
 
+function apriEtichettaAbl(id) {
+  var records = JSON.parse(localStorage.getItem('abl_records') || '[]');
+  var r = records.find(function(x){ return x.id === id; });
+  if (r) apriEtichetta('congelo', r);
+}
+function apriEtichettaLav(id) {
+  var records = JSON.parse(localStorage.getItem('lav_records') || '[]');
+  var r = records.find(function(x){ return x.id === id; });
+  if (r) apriEtichetta('frigo', r);
+}
+
 function escHtml(s) {
   return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
@@ -6862,5 +7227,39 @@ if(isLoggedIn()) initHero();
     </div>
   </div>
 </div>
+<!-- ═══ ETICHETTA MODAL ═══ -->
+<div id="etichettaModal">
+  <div class="etich-wrap">
+    <div class="etich-title">🏷️ STAMPA ETICHETTA</div>
+
+    <div class="etich-preview" id="etichPreview">
+      <!-- generato da JS -->
+    </div>
+
+    <div style="margin-bottom:1rem;">
+      <label style="font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:#6b7c93;font-weight:600;display:block;margin-bottom:.5rem;">FORMATO ETICHETTA</label>
+      <div class="etich-controls">
+        <button class="etich-size-btn active" onclick="etichSetFormato(this,'piccola')">Piccola<br><span style="font-weight:400;font-size:.65rem;">50×30 mm</span></button>
+        <button class="etich-size-btn" onclick="etichSetFormato(this,'media')">Media<br><span style="font-weight:400;font-size:.65rem;">70×50 mm</span></button>
+        <button class="etich-size-btn" onclick="etichSetFormato(this,'grande')">Grande<br><span style="font-weight:400;font-size:.65rem;">100×70 mm</span></button>
+      </div>
+    </div>
+
+    <div style="margin-bottom:1rem;">
+      <label style="font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:#6b7c93;font-weight:600;display:block;margin-bottom:.35rem;">NOTE AGGIUNTIVE (opzionale)</label>
+      <input type="text" id="etichNoteExtra" placeholder="es. Porzione chef, Allergeni: glutine..."
+        style="width:100%;background:#f5f7fb;border:1px solid #c8d4e8;border-radius:6px;padding:.5rem .8rem;color:#1a2c4a;font-family:'Barlow',sans-serif;font-size:.88rem;outline:none;">
+    </div>
+
+    <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+      <button class="btn btn-primary" onclick="etichStampa()" style="flex:1;">🖨️ STAMPA / SALVA PDF</button>
+      <button class="btn btn-outline" onclick="document.getElementById('etichettaModal').classList.remove('open')" style="flex:0 0 auto;">✕ CHIUDI</button>
+    </div>
+  </div>
+</div>
+
+<!-- Area stampa etichetta (invisibile, usata per print) -->
+<div id="etichetta-print-area"></div>
+
 </body>
 </html>
